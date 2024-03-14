@@ -22,7 +22,7 @@ import br.com.fiap.geoworldmania.R
 
 
 @Composable
-fun Header() {
+fun Header(text: String) {
     Card {
         Row(
             modifier = Modifier
@@ -41,7 +41,7 @@ fun Header() {
             )
 
             Text(
-                text = "Capital - Europa - Nível 1",
+                text = text,
                 color = colorResource(id = R.color.azul5),
                 fontSize =  20.sp
             )
@@ -59,5 +59,5 @@ fun Header() {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun HeaderPreview() {
-    Header()
+    Header("Capital - Europa - Nível 1")
 }
