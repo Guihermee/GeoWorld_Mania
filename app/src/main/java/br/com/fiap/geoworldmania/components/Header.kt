@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -26,7 +27,6 @@ fun Header(textContent: String) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 16.dp)
                 .background(color = colorResource(id = R.color.azul2))
                 .height(70.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -58,6 +58,7 @@ fun Header(textContent: String) {
             )
         }
     }
+    Spacer(modifier = Modifier.height(16.dp))
 }
 
 @Preview(showBackground = true, showSystemUi = true)
