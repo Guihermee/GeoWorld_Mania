@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import br.com.fiap.geoworldmania.components.Header
+import br.com.fiap.geoworldmania.jogoDaCapital.JogoDaCapitalScreen
 import br.com.fiap.geoworldmania.ui.theme.GeoWorldManiaTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,7 +24,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Header()
+                    JogoDaCapitalScreen()
                 }
             }
         }
