@@ -9,16 +9,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.graphics.toColor
 import br.com.fiap.geoworldmania.R
 import br.com.fiap.geoworldmania.R.drawable.heart_filled_42_white
 import br.com.fiap.geoworldmania.R.drawable.lightbulb_filled_42_white
+import br.com.fiap.geoworldmania.components.Footer
 import br.com.fiap.geoworldmania.components.Header
 import br.com.fiap.geoworldmania.components.OpcoesEscolhaNivel
 
@@ -74,6 +75,7 @@ fun OpcoesDeNiveisScreen (){
         }
 
     }
+    Box(contentAlignment = Alignment.BottomCenter ) {Footer()}
 
 }
 
