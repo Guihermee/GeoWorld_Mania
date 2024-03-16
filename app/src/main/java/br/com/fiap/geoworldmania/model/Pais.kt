@@ -6,11 +6,7 @@ data class Pais(
     @SerializedName("name") val nome: name,
     @SerializedName("capital") val capital: List<String> = listOf(),
     @SerializedName("flags") val bandeira: flagSvg
-) {
-    override fun toString(): String {
-        return "Pais(nome='$nome', capital=$capital, bandeira='$bandeira')"
-    }
-}
+)
 
 data class name(
     val common: String = ""
