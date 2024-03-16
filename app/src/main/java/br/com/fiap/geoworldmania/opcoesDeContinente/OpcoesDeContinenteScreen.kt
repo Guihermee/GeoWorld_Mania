@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.fiap.geoworldmania.R
+import br.com.fiap.geoworldmania.components.Footer
 import br.com.fiap.geoworldmania.components.Header
 import br.com.fiap.geoworldmania.components.OpcoesEscolhaCapital
 
@@ -72,6 +73,7 @@ fun OpcoesDeContinenteScreen() {
                 colors = ButtonDefaults
                     .buttonColors(containerColor = colorResource(id = R.color.azul_escuro))
             )
+            Footer()
         }
     }
 
