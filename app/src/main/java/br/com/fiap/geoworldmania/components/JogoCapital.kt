@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -20,16 +18,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.fiap.geoworldmania.R
-import br.com.fiap.geoworldmania.jogoDaCapital.JogoDaCapitalScreenViewModel
+import br.com.fiap.geoworldmania.model.Pais
+import coil.compose.AsyncImage
 
 @Composable
-fun JogoCapital(jogoDaCapitalScreenViewModel: JogoDaCapitalScreenViewModel) {
-
-    val pais by jogoDaCapitalScreenViewModel.pais.observeAsState(initial = "")
-
+fun JogoCapital(pais: Pais) {
 
     Text(
-        text = stringResource(id = R.string.capital),
+        text = "${pais.nome}",
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 6.dp),
@@ -42,9 +38,9 @@ fun JogoCapital(jogoDaCapitalScreenViewModel: JogoDaCapitalScreenViewModel) {
     Column(
         modifier = Modifier.height(250.dp)
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.cidade),
-            contentDescription = "Imagem de alguma cidade da Espanha",
+        AsyncImage(
+            model = "${pais.bandeira}",
+            contentDescription = "Bandeira do Pais",
             modifier = Modifier
                 .fillMaxSize()
                 .padding(start = 16.dp, end = 16.dp),
@@ -63,10 +59,9 @@ fun JogoCapital(jogoDaCapitalScreenViewModel: JogoDaCapitalScreenViewModel) {
         fontSize = 24.sp,
         fontWeight = FontWeight.Bold
     )
-
-    OpcaoDeEscolhaJogo("Espanha")
-    OpcaoDeEscolhaJogo("Espanha")
-    OpcaoDeEscolhaJogo("Espanha")
-    OpcaoDeEscolhaJogo("Espanha")
-
+    val nomePais = pais.capital.first().split("=")[1].split("common=")[1].removeSuffix(")")
+    OpcaoDeEscolhaJogoErrado(nomePais)
+    OpcaoDeEscolhaJogoErrado(opcao = "Nicosia")
+    OpcaoDeEscolhaJogoErrado(opcao = "Bratislava")
+    OpcaoDeEscolhaJogoErrado(opcao = "Belgrade")
 }

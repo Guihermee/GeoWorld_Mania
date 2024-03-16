@@ -25,7 +25,27 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun OpcaoDeEscolhaJogo(opcao: String) {
+fun OpcaoDeEscolhaJogo(opcao: List<String>) {
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Button(
+            onClick = { /*TODO*/ },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 16.dp),
+            shape = RoundedCornerShape(8.dp)
+        ) {
+            val opcaoTexto = opcao.joinToString(separator = ", ")
+            Text(
+                text = opcaoTexto,
+                fontSize = 32.sp
+            )
+        }
+    }
+    Spacer(modifier = Modifier.height(6.dp))
+}
+
+@Composable
+fun OpcaoDeEscolhaJogoErrado(opcao: String) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Button(
             onClick = { /*TODO*/ },
