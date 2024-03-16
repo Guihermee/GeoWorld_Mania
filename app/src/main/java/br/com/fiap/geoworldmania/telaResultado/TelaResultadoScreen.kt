@@ -23,11 +23,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import br.com.fiap.geoworldmania.R
 
 @Composable
 fun TelaResultadoScreen() {
@@ -39,7 +41,7 @@ fun TelaResultadoScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color(0xFFEDE9E9))
+            .background(color = colorResource(id = R.color.azul6))
     ) {
         Column(
             modifier = Modifier
@@ -57,7 +59,7 @@ fun TelaResultadoScreen() {
                     text = "Parabéns!!!",
                     fontSize = 60.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    color = Color(0xFF3C6973)
+                    color = colorResource(id = R.color.azul5)
                 )
             }
             //-----Card Acertos
@@ -71,7 +73,7 @@ fun TelaResultadoScreen() {
                         .fillMaxWidth()
                         .height(400.dp)
                         .offset(y = (-30).dp),
-                    colors = CardDefaults.cardColors(containerColor = Color(0xFFEDE9E9)),
+                    colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.azul6)),
                     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
                     shape = RoundedCornerShape(8.dp)
                 ) {
@@ -86,7 +88,7 @@ fun TelaResultadoScreen() {
                             modifier = Modifier.fillMaxWidth(),
                             fontSize = 48.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFF3C6973),
+                            color = colorResource(id = R.color.azul5),
                             textAlign = TextAlign.Center
                         )
                         Spacer(modifier = Modifier.height(82.dp))
@@ -95,7 +97,7 @@ fun TelaResultadoScreen() {
                             modifier = Modifier.fillMaxWidth(),
                             fontSize = 60.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFF3C6973),
+                            color = colorResource(id = R.color.azul5),
                             textAlign = TextAlign.Center
                         )
                     }
@@ -108,7 +110,7 @@ fun TelaResultadoScreen() {
                         .fillMaxWidth()
                         .height(48.dp),
                     shape = RoundedCornerShape(16.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF73CFD9))
+                    colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.azul1))
                 ) {
                     Text(
                         text = "Próximo Nível",
@@ -124,7 +126,7 @@ fun TelaResultadoScreen() {
                         .fillMaxWidth()
                         .height(48.dp),
                     shape = RoundedCornerShape(16.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF73CFD9))
+                    colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.azul1))
                 ) {
                     Text(
                         text = "Voltar ao Menu",
