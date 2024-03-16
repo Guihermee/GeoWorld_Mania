@@ -64,8 +64,6 @@ fun Footer() {
                 Image(
                     painter = painterResource(id = R.drawable.login),
                     contentDescription = "Conta logada",
-                    //modifier = Modifier
-                       // .size(80.dp, 80.dp),
                     contentScale = ContentScale.Crop
                 )
             }

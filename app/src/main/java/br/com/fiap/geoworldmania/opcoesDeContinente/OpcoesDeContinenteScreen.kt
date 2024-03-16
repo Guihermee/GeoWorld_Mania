@@ -76,7 +76,6 @@ fun OpcoesDeContinenteScreen() {
             Footer()
         }
     }
-
 }
 
 @Preview(showBackground = true, showSystemUi = true)
