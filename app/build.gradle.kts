@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+
+    // Puglin para o ROOM/kapt
+    id ("kotlin-kapt")
 }
 
 android {
@@ -70,4 +73,17 @@ dependencies {
 
     //Dependência do Navigation
     implementation("androidx.navigation:navigation-compose:2.7.7")
+
+    // Dependências do Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // Room DEPENDENCIES
+    implementation("androidx.room:room-runtime:2.6.1")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+
+    // Dependência do LiveData
+    implementation("androidx.compose.runtime:runtime-livedata:1.6.3")
+
 }
