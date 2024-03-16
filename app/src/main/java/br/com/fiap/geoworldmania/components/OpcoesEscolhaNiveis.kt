@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
@@ -33,12 +34,12 @@ import br.com.fiap.geoworldmania.R
 
 @Composable
 fun OpcoesEscolhaNivel(texto1: String, imagem: Int, colors: ButtonColors) {
-    Spacer(modifier = Modifier.height(4.dp))
+    Spacer(modifier = Modifier.height(8.dp))
     Button(
         onClick = {},
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 10.dp)
             .height(60.dp),
         shape = RoundedCornerShape(4.dp),
         colors = colors,
@@ -46,18 +47,19 @@ fun OpcoesEscolhaNivel(texto1: String, imagem: Int, colors: ButtonColors) {
         Row(
             horizontalArrangement = Arrangement.Absolute.SpaceBetween,
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
             ) {
                 Text(
                     text = texto1,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Normal,
                     color = Color.White,
                     fontSize = 20.sp
                 )
             }
-            Image(painter = painterResource(id = imagem), contentDescription = "")
+            Image(painter = painterResource(id = imagem), contentDescription = "", Modifier.size(26.dp))
         }
     }
 }
