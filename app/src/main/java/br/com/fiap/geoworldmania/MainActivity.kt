@@ -9,6 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import br.com.fiap.geoworldmania.screens.JogoDaCapitalScreen
 import br.com.fiap.geoworldmania.screens.OpcoesDeNiveisScreen
+import br.com.fiap.geoworldmania.screens.TelaInicial
 import br.com.fiap.geoworldmania.viewModel.JogoDaCapitalScreenViewModel
 import br.com.fiap.geoworldmania.ui.theme.GeoWorldManiaTheme
 
@@ -22,7 +23,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    OpcoesDeNiveisScreen()
+                    TelaInicial()
                 }
             }
         }

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
@@ -16,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -29,7 +31,7 @@ fun ConsultaButton(texto1: String, imagem: Int, colors: ButtonColors) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 8.dp)
-            .height(70.dp),
+            .height(75.dp),
         shape = RoundedCornerShape(4.dp),
         colors = colors,
     ) {
@@ -48,7 +50,15 @@ fun ConsultaButton(texto1: String, imagem: Int, colors: ButtonColors) {
                     fontSize = 20.sp
                 )
             }
-            Image(painter = painterResource(id = imagem), contentDescription = "")
+            Image(
+                painter = painterResource(id = imagem),
+                contentDescription = "",
+                modifier = Modifier
+                    .size(50.dp)
+                    .graphicsLayer {
+                        alpha = 0.6f
+                    }
+            )
         }
     }
 }

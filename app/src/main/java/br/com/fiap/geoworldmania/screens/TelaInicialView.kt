@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -23,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -32,6 +34,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.com.fiap.geoworldmania.R
 import br.com.fiap.geoworldmania.components.ConsultaButton
+import br.com.fiap.geoworldmania.components.Footer
+import br.com.fiap.geoworldmania.components.FooterTelaInicial
 import br.com.fiap.geoworldmania.components.TiposJogosButton
 
 @Composable
@@ -57,11 +61,18 @@ fun TelaInicial(/*navController: NavController*/){
                         .height(50.dp)
                         .padding(top = 10.dp, end = 60.dp),
                 )
-                Image(
-                    painter = painterResource(id = R.drawable.ana),
-                    contentDescription = "Foto Usuário",
-                    modifier = Modifier.size(50.dp)
-                )
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .size(45.dp, 45.dp)
+                        .clip(shape = CircleShape)
+                ){
+                    Image(
+                        painter = painterResource(id = R.drawable.ana),
+                        contentDescription = "Conta logada",
+                        contentScale = ContentScale.Crop
+                    )
+                }
             }
             Column (horizontalAlignment = Alignment.CenterHorizontally){
                 Button(
@@ -91,7 +102,8 @@ fun TelaInicial(/*navController: NavController*/){
                         Image(
                             painter = painterResource(id = R.drawable.arrow_forward_ios_24),
                             contentDescription = "Seta pra direita",
-                            modifier = Modifier.padding(top = 7.dp)
+                            modifier = Modifier
+                                .padding(top = 7.dp)
                                 .height(100.dp)
 
                         )
@@ -149,7 +161,13 @@ fun TelaInicial(/*navController: NavController*/){
                 ConsultaButton(texto1 = "Todas as Capitais", imagem = R.drawable.todascapitais,  colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.amarelomarrom)))
                 ConsultaButton(texto1 = "Todas as bandeira", imagem = R.drawable.todasbandeiras,  colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.azul_escuro)))
             }
-
         }
+    }
+    Box(
+        contentAlignment = Alignment.BottomCenter,
+        modifier = Modifier.fillMaxWidth()
+    )
+    {
+        FooterTelaInicial()
     }
 }
