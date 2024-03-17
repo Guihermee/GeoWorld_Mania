@@ -36,7 +36,7 @@ fun JogoDaCapitalScreen(jogoDaCapitalScreenViewModel: JogoDaCapitalScreenViewMod
                     Log.i("FIAP", "onResponse: ${response.body()}")
 
                     val resp = response.body()!!
-                    val paisesAleatorios = resp.shuffled().take(3).toMutableList()
+                    val paisesAleatorios = resp
                     val nivel01 = resp.take(10)
 
                     jogoDaCapitalScreenViewModel.onListaPaisAleatorioStateChange(paisesAleatorios)
@@ -51,20 +51,17 @@ fun JogoDaCapitalScreen(jogoDaCapitalScreenViewModel: JogoDaCapitalScreenViewMod
         }) {}
 
         for (i in nivel01.indices) {
-            jogoDaCapitalScreenViewModel.adicionarPaisAleatorio(nivel01[i])
-            jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
             if ( i == indexAtual) {
-
+                jogoDaCapitalScreenViewModel.adicionarPaisAleatorio(nivel01[i])
+                jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
 
                 JogoCapital(
                     pais = nivel01[i],
                     listaPaisAleatoriosState,
                     jogoDaCapitalScreenViewModel
                 )
-
-
+                jogoDaCapitalScreenViewModel.removerPaisAleatorio(nivel01[i])
             }
-            jogoDaCapitalScreenViewModel.removerPaisAleatorio(nivel01[i])
         }
     }
 }
