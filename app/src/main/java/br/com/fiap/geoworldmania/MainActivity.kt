@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
                     var navController = rememberNavController()
                     NavHost(navController = navController, startDestination = "telaInicial") {
                         composable(route = "telaInicial") {
-                            TelaInicial(TelaInicialViewModel(), navController)
+                            TelaInicial(navController)
                         }
                         composable(route = "opcoesDeContinente") {
                             OpcoesDeContinenteScreen(navController)
