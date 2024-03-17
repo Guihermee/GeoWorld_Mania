@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitFactory {
 
-    private val URL = "http://52.15.151.167:8000/"
+    private val URL = "https://restcountries.com/v3.1/"
 
     private val retrofitFactory = Retrofit
         .Builder()
@@ -13,7 +13,8 @@ class RetrofitFactory {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    fun getPaisByContinente(): PaisService {
+    fun getPaisService(): PaisService {
         return retrofitFactory.create(PaisService::class.java)
     }
+
 }

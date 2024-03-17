@@ -78,12 +78,17 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
-    // Room DEPENDENCIES
+    //Dependência do Coil
+    implementation("io.coil-kt:coil-compose:2.6.0")
+
+    // Dependências do Room
     implementation("androidx.room:room-runtime:2.6.1")
     annotationProcessor("androidx.room:room-compiler:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
 
     // Dependência do LiveData
     implementation("androidx.compose.runtime:runtime-livedata:1.6.3")
+
+
 
 }

@@ -1,4 +1,4 @@
-package br.com.fiap.geoworldmania.telaResultado
+package br.com.fiap.geoworldmania.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
