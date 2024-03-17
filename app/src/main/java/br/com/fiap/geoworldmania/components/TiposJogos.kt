@@ -22,10 +22,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun TiposJogosButton(texto1: String, imagem: Int, colors: ButtonColors) {
+fun TiposJogosButton(texto1: String, imagem: Int, colors: ButtonColors, onClick: () -> Unit) {
     Spacer(modifier = Modifier.height(4.dp))
     Button(
-        onClick = {},
+        onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)

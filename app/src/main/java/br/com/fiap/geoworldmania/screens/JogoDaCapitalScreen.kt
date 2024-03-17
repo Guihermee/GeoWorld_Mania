@@ -3,22 +3,47 @@ package br.com.fiap.geoworldmania.screens
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import br.com.fiap.geoworldmania.R
 import br.com.fiap.geoworldmania.components.AjudaAndVidas
 import br.com.fiap.geoworldmania.components.Header
 import br.com.fiap.geoworldmania.components.JogoCapital
 import br.com.fiap.geoworldmania.model.Pais
 import br.com.fiap.geoworldmania.service.RetrofitFactory
 import br.com.fiap.geoworldmania.viewModel.JogoDaCapitalScreenViewModel
+import coil.compose.AsyncImage
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 @Composable
-fun JogoDaCapitalScreen(jogoDaCapitalScreenViewModel: JogoDaCapitalScreenViewModel) {
+fun JogoDaCapitalScreen(
+    jogoDaCapitalScreenViewModel: JogoDaCapitalScreenViewModel,
+    navController: NavController
+) {
     Column {
 
         val listaPaisAleatoriosState by jogoDaCapitalScreenViewModel
@@ -36,7 +61,7 @@ fun JogoDaCapitalScreen(jogoDaCapitalScreenViewModel: JogoDaCapitalScreenViewMod
                     Log.i("FIAP", "onResponse: ${response.body()}")
 
                     val resp = response.body()!!
-                    val paisesAleatorios = resp
+                    val paisesAleatorios = resp.shuffled().take(3).toMutableList()
                     val nivel01 = resp.take(10)
 
                     jogoDaCapitalScreenViewModel.onListaPaisAleatorioStateChange(paisesAleatorios)
@@ -49,18 +74,22 @@ fun JogoDaCapitalScreen(jogoDaCapitalScreenViewModel: JogoDaCapitalScreenViewMod
                 }
             })
         }) {}
+        Column {
 
-        for (i in nivel01.indices) {
-            if ( i == indexAtual) {
-                jogoDaCapitalScreenViewModel.adicionarPaisAleatorio(nivel01[i])
-                jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
+            for (i in nivel01.indices) {
+                if (i == indexAtual) {
+                    jogoDaCapitalScreenViewModel.adicionarPaisAleatorio(nivel01[i])
+                    jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
 
-                JogoCapital(
-                    pais = nivel01[i],
-                    listaPaisAleatoriosState,
-                    jogoDaCapitalScreenViewModel
-                )
-                jogoDaCapitalScreenViewModel.removerPaisAleatorio(nivel01[i])
+                    JogoCapital(
+                        pais = nivel01[i],
+                        listaPaisAleatoriosState,
+                        jogoDaCapitalScreenViewModel
+                    )
+
+                    jogoDaCapitalScreenViewModel.removerPaisAleatorio(nivel01[i])
+
+                }
             }
         }
     }

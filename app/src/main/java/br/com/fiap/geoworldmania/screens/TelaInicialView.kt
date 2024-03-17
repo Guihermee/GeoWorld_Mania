@@ -1,12 +1,9 @@
 package br.com.fiap.geoworldmania.screens
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -26,9 +23,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.com.fiap.geoworldmania.R
 import br.com.fiap.geoworldmania.components.TiposJogosButton
+import br.com.fiap.geoworldmania.viewModel.TelaInicialViewModel
 
 @Composable
-fun TelaInicial(telaInicialViewModel: TelaInicialViewModel,navController: NavController){
+fun TelaInicial(telaInicialViewModel: TelaInicialViewModel, navController: NavController){
 
     Box(
         modifier = Modifier.padding(16.dp),
@@ -89,9 +87,24 @@ fun TelaInicial(telaInicialViewModel: TelaInicialViewModel,navController: NavCon
                             .padding(top = 10.dp, end = 90.dp),
                     )
                 }
-                TiposJogosButton(texto1 = "Capitais do Mundo", imagem = R.drawable.planeta,  colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.vermelho)))
-                TiposJogosButton(texto1 = "Bandeiras", imagem = R.drawable.planeta,  colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.azul_claro)))
-                TiposJogosButton(texto1 = "Países", imagem = R.drawable.planeta,  colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.verde_claro)))
+                TiposJogosButton(
+                    texto1 = "Capitais do Mundo",
+                    imagem = R.drawable.planeta,
+                    onClick = {navController.navigate( "opcoesDeContinente")},
+                    colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.vermelho))
+                )
+                TiposJogosButton(
+                    texto1 = "Bandeiras",
+                    imagem = R.drawable.planeta,
+                    onClick = {},
+                    colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.azul_claro))
+                )
+                TiposJogosButton(
+                    texto1 = "Países",
+                    imagem = R.drawable.planeta,
+                    onClick = {},
+                    colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.verde_claro))
+                )
             }
             Column (
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -113,8 +126,8 @@ fun TelaInicial(telaInicialViewModel: TelaInicialViewModel,navController: NavCon
                             .padding(top = 10.dp, end = 90.dp),
                     )
                 }
-                TiposJogosButton(texto1 = "Todas as Capitais", imagem = R.drawable.planeta,  colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.amarelomarrom)))
-                TiposJogosButton(texto1 = "Todas as bandeira", imagem = R.drawable.planeta,  colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.azul_escuro)))
+                TiposJogosButton(texto1 = "Todas as Capitais", imagem = R.drawable.planeta, onClick = {},  colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.amarelomarrom)))
+                TiposJogosButton(texto1 = "Todas as bandeira", imagem = R.drawable.planeta, onClick = {},  colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.azul_escuro)))
             }
 
         }

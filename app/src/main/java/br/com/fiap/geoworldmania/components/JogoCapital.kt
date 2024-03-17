@@ -29,8 +29,11 @@ import br.com.fiap.geoworldmania.model.Pais
 import coil.compose.AsyncImage
 
 @Composable
-fun JogoCapital(pais: Pais, opcoesDeEscolha: List<Pais>, jogoDaCapitalScreenViewModel: JogoDaCapitalScreenViewModel) {
-//opcao01: List<Pais>, opcao02: List<Pais>, opcao03: List<Pais>
+fun JogoCapital(
+    pais: Pais,
+    opcoesDeEscolha: List<Pais>,
+    jogoDaCapitalScreenViewModel: JogoDaCapitalScreenViewModel
+) {
 
     var opcaoCorreta = pais.capital[0]
 
@@ -74,9 +77,17 @@ fun JogoCapital(pais: Pais, opcoesDeEscolha: List<Pais>, jogoDaCapitalScreenView
 
     // Criação das opções de escolha
     var corCard by remember { mutableIntStateOf(R.color.azul1) }
-    opcoesDeEscolha.forEach{
+
+    opcoesDeEscolha.forEach {
         Button(
-            onClick = { jogoDaCapitalScreenViewModel.proximoPais() },
+            onClick = {
+
+                jogoDaCapitalScreenViewModel.adicionarPaisAleatorio(pais)
+                jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
+                jogoDaCapitalScreenViewModel.removerPaisAleatorio(pais)
+                jogoDaCapitalScreenViewModel.proximoPais()
+
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp),

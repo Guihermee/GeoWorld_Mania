@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import br.com.fiap.geoworldmania.R
 import br.com.fiap.geoworldmania.R.drawable.heart_filled_42_white
 import br.com.fiap.geoworldmania.R.drawable.lightbulb_filled_42_white
@@ -25,7 +26,7 @@ import br.com.fiap.geoworldmania.components.OpcoesEscolhaNivel
 
 @Composable
 
-fun OpcoesDeNiveisScreen (){
+fun OpcoesDeNiveisScreen (navController: NavController){
     Box(modifier = Modifier.fillMaxWidth()){
         Column() {
             Header(textContent = "")
@@ -40,7 +41,7 @@ fun OpcoesDeNiveisScreen (){
             OpcoesEscolhaNivel(
                 texto1 = "Nível 1: 10 Países",
                 imagem = lightbulb_filled_42_white,
-                onClick = {},
+                onClick = {navController.navigate("jogoDaCapital")},
                 colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.verde_claro)))
 
 
@@ -86,8 +87,8 @@ fun OpcoesDeNiveisScreen (){
 
 }
 
-@Preview (showBackground = true, showSystemUi = true)
-@Composable
-fun OpcoesDeNiveisScreenPreview (){
-        OpcoesDeNiveisScreen()
-}
+//@Preview (showBackground = true, showSystemUi = true)
+//@Composable
+//fun OpcoesDeNiveisScreenPreview (){
+//        OpcoesDeNiveisScreen()
+//}
