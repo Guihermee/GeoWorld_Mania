@@ -3,15 +3,19 @@ package br.com.fiap.geoworldmania.model
 import com.google.gson.annotations.SerializedName
 
 data class Pais(
-    @SerializedName("name") val nome: name,
+    @SerializedName("translations") val nome: Portugues,
     @SerializedName("capital") val capital: List<String> = listOf(),
-    @SerializedName("flags") val bandeira: flagSvg
+    @SerializedName("flags") val bandeira: FlagSvg
 )
 
-data class name(
-    val common: String = ""
+data class Portugues(
+    @SerializedName("por") val portugues: Nome
 )
 
-data class flagSvg(
-    var svg: String = ""
+data class Nome(
+    @SerializedName("common") val common: String = ""
+)
+
+data class FlagSvg(
+    var png: String = ""
 )

@@ -33,10 +33,15 @@ import br.com.fiap.geoworldmania.R
 
 
 @Composable
-fun OpcoesEscolhaNivel(texto1: String, imagem: Int, colors: ButtonColors) {
+fun OpcoesEscolhaNivel(
+    texto1: String,
+    imagem: Int,
+    colors: ButtonColors,
+    onClick: () -> Unit
+) {
     Spacer(modifier = Modifier.height(8.dp))
     Button(
-        onClick = {},
+        onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp)

@@ -1,31 +1,43 @@
 package br.com.fiap.geoworldmania.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.fiap.geoworldmania.R
+import br.com.fiap.geoworldmania.viewModel.JogoDaCapitalScreenViewModel
 import br.com.fiap.geoworldmania.model.Pais
 import coil.compose.AsyncImage
 
 @Composable
-fun JogoCapital(pais: Pais) {
+fun JogoCapital(pais: Pais, opcoesDeEscolha: List<Pais>, jogoDaCapitalScreenViewModel: JogoDaCapitalScreenViewModel) {
+//opcao01: List<Pais>, opcao02: List<Pais>, opcao03: List<Pais>
 
+    var opcaoCorreta = pais.capital[0]
+
+
+    // Nome do País
     Text(
-        text = "${pais.nome}",
+        text = pais.nome.portugues.common,
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 6.dp),
@@ -34,12 +46,12 @@ fun JogoCapital(pais: Pais) {
         fontWeight = FontWeight.Bold
     )
 
-    // Imagem do Pais
+    // Imagem do País
     Column(
         modifier = Modifier.height(250.dp)
     ) {
         AsyncImage(
-            model = "${pais.bandeira}",
+            model = pais.bandeira.png,
             contentDescription = "Bandeira do Pais",
             modifier = Modifier
                 .fillMaxSize()
@@ -59,9 +71,23 @@ fun JogoCapital(pais: Pais) {
         fontSize = 24.sp,
         fontWeight = FontWeight.Bold
     )
-    val nomePais = pais.capital.first().split("=")[1].split("common=")[1].removeSuffix(")")
-    OpcaoDeEscolhaJogoErrado(nomePais)
-    OpcaoDeEscolhaJogoErrado(opcao = "Nicosia")
-    OpcaoDeEscolhaJogoErrado(opcao = "Bratislava")
-    OpcaoDeEscolhaJogoErrado(opcao = "Belgrade")
+
+    // Criação das opções de escolha
+    var corCard by remember { mutableIntStateOf(R.color.azul1) }
+    opcoesDeEscolha.forEach{
+        Button(
+            onClick = { jogoDaCapitalScreenViewModel.proximoPais() },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 16.dp),
+            shape = RoundedCornerShape(8.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = corCard))
+        ) {
+            Text(
+                text = it.capital[0],
+                fontSize = 32.sp
+            )
+        }
+        Spacer(modifier = Modifier.height(6.dp))
+    }
 }
