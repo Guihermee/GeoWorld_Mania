@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun TiposJogosButton(texto1: String, imagem: Int, colors: ButtonColors) {
+fun ConsultaButton(texto1: String, imagem: Int, colors: ButtonColors) {
     Spacer(modifier = Modifier.height(4.dp))
     Button(
         onClick = {},
@@ -40,18 +40,12 @@ fun TiposJogosButton(texto1: String, imagem: Int, colors: ButtonColors) {
         ) {
             Column(
             ) {
+                Spacer(modifier = Modifier.height(10.dp))
                 Text(
                     text = texto1,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
                     fontSize = 20.sp
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                Text(
-                    text = "Níveis concluídos 0/10",
-                    fontWeight = FontWeight.Normal,
-                    color = Color.White,
-                    fontSize = 12.sp
                 )
             }
             Image(painter = painterResource(id = imagem), contentDescription = "")
