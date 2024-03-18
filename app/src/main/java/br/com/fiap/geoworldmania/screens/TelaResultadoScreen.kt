@@ -33,7 +33,7 @@ import androidx.navigation.NavController
 import br.com.fiap.geoworldmania.R
 
 @Composable
-fun TelaResultadoScreen() {
+fun TelaResultadoScreen(navController: NavController) {
 
     var acertos by remember {
         mutableStateOf(0)
@@ -163,9 +163,9 @@ fun TelaResultadoScreen() {
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun TelaResultadoScreenPreview() {
-    TelaResultadoScreen()
-}
+//@Preview(showBackground = true, showSystemUi = true)
+//@Composable
+//fun TelaResultadoScreenPreview() {
+//    TelaResultadoScreen()
+//}
 
