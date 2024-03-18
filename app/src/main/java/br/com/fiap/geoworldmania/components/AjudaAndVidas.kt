@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,7 +40,7 @@ fun AjudaAndVidas() {
                 Text(
                     text = stringResource(id = R.string.CampoDica),
                     fontSize = 20.sp
-                    )
+                )
             }
             Row {
                 Icon(
@@ -62,5 +64,37 @@ fun AjudaAndVidas() {
 
         }
     }
+    Spacer(modifier = Modifier.height(16.dp))
+}
+
+@Composable
+fun Ajuda() {
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(end = 16.dp),
+        horizontalArrangement = Arrangement.End
+    ) {
+        Button(onClick = { /*TODO*/ }) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.lightbulb_outline_42),
+                        contentDescription = "Icone de uma lâmpada"
+                    )
+                    Text(
+                        text = stringResource(id = R.string.CampoDica),
+                        fontSize = 20.sp
+                    )
+                }
+            }
+
+
+        }
+    }
+
     Spacer(modifier = Modifier.height(16.dp))
 }

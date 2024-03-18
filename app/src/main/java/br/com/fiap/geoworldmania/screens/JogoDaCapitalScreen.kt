@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.com.fiap.geoworldmania.R
+import br.com.fiap.geoworldmania.components.Ajuda
 import br.com.fiap.geoworldmania.components.AjudaAndVidas
 import br.com.fiap.geoworldmania.components.Header
 import br.com.fiap.geoworldmania.components.JogoCapital
@@ -52,7 +53,8 @@ fun JogoDaCapitalScreen(
         val indexAtual by jogoDaCapitalScreenViewModel.indexAtual.observeAsState(initial = 0)
 
         Header(textContent = "Capital - Europa - Nível 1")
-        AjudaAndVidas()
+        //AjudaAndVidas()
+        Ajuda()
 
         Button(onClick = {
             val call = RetrofitFactory().getPaisService().getPaisByContinente("europe")

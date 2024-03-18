@@ -89,6 +89,4 @@ dependencies {
     // Dependência do LiveData
     implementation("androidx.compose.runtime:runtime-livedata:1.6.3")
 
-
-
 }

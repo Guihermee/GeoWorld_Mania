@@ -91,7 +91,7 @@ fun JogoCapital(
                     var proxIndex = jogoDaCapitalScreenViewModel.saberQualPaisesAtual(pais)
                     jogoDaCapitalScreenViewModel.removerPaisAleatorio(pais)
                     if (proxIndex + 1  > listaDePais.count()) {
-                        navController.navigate("telaResultado")
+                        return@Button navController.navigate("telaResultado")
                     }
                     if ( proxIndex <= listaDePais.count()) {
                         jogoDaCapitalScreenViewModel.adicionarPaisAleatorio(listaDePais[proxIndex])
