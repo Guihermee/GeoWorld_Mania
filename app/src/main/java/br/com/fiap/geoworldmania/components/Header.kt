@@ -36,10 +36,8 @@ fun Header(textContent: String, onClickVoltar: () -> Unit) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(
-                    onClickVoltar,
-                    modifier = Modifier.padding(start = 16.dp)
-                ) {
+                IconButton(onClickVoltar,
+                    modifier = Modifier.padding(start = 16.dp)) {
                     Icon(
                         painter = painterResource(id = R.drawable.arrow_back_42),
                         contentDescription = "Icone de voltar",
@@ -51,7 +49,7 @@ fun Header(textContent: String, onClickVoltar: () -> Unit) {
                     text = textContent,
                     modifier = Modifier.padding(start = 16.dp),
                     color = colorResource(id = R.color.azul5),
-                    fontSize = 20.sp
+                    fontSize =  20.sp
                 )
             }
 
@@ -59,7 +57,7 @@ fun Header(textContent: String, onClickVoltar: () -> Unit) {
                 painter = painterResource(id = R.drawable.more_vert_42),
                 contentDescription = "Ícone de mais",
                 modifier = Modifier.padding(end = 16.dp),
-                tint = colorResource(id = R.color.azul5)
+                tint = colorResource (id = R.color.azul5)
             )
         }
     }

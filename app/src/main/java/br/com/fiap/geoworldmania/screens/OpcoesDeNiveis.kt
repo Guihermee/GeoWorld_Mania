@@ -38,14 +38,6 @@ import retrofit2.Response
 
 fun OpcoesDeNiveisScreen(navController: NavController, jogoDaCapitalScreenViewModel: JogoDaCapitalScreenViewModel) {
 
-    val listaPaisAleatoriosState by jogoDaCapitalScreenViewModel
-        .listaPaisAleatorioState.observeAsState(initial = listOf())
-    val nivel01 by jogoDaCapitalScreenViewModel.nivel01.observeAsState(initial = listOf())
-    val indexAtual by jogoDaCapitalScreenViewModel.indexAtual.observeAsState(initial = 0)
-    val listaDeContinente by jogoDaCapitalScreenViewModel.listaDeContinente.observeAsState(
-        initial = listOf()
-    )
-
     Box(modifier = Modifier.fillMaxWidth()) {
         Column() {
             Header(textContent = "", onClickVoltar = {navController.navigate("opcoesDeContinente")})
@@ -61,32 +53,10 @@ fun OpcoesDeNiveisScreen(navController: NavController, jogoDaCapitalScreenViewMo
                 texto1 = "Nível 1: 10 Países",
                 imagem = lightbulb_filled_42_white,
                 onClick = {
-                    val call = RetrofitFactory().getPaisService().getPaisByContinente("europe")
-                    call.enqueue(object : Callback<List<Pais>> {
-                        override fun onResponse(call: Call<List<Pais>>, response: Response<List<Pais>>) {
-                            Log.i("FIAP", "onResponse: ${response.body()}")
-
-                            val resp = response.body()!!
-                            val paisesAleatorios = resp.shuffled().take(3).toMutableList()
-                            val nivel01 = resp.take(10)
-
-                            jogoDaCapitalScreenViewModel.onListaPaisAleatorioStateChange(paisesAleatorios)
-                            jogoDaCapitalScreenViewModel.adicionarPaisAleatorio(nivel01[0])
-                            jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
-                            jogoDaCapitalScreenViewModel.onNivel01Change(nivel01)
-                            jogoDaCapitalScreenViewModel.onListaDeContinenteStateChange(resp)
-
-                        }
-
-                        override fun onFailure(call: Call<List<Pais>>, t: Throwable) {
-                            Log.i("FIAP", "onResponse: ${t.message}")
-                        }
-                    })
                     navController.navigate("jogoDaCapital")
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.verde_claro))
             )
-
 
             OpcoesEscolhaNivel(
                 texto1 = "Nivel 2: +10 Países",
