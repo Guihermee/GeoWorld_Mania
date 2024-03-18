@@ -126,25 +126,25 @@ fun TelaResultadoScreen(navController: NavController) {
                     }
                 }
                 //----Botões
-                Spacer(modifier = Modifier.height(36.dp))
-                Button(
-                    onClick = {},
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp),
-                    shape = RoundedCornerShape(16.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.azul1))
-                ) {
-                    Text(
-                        text = "Próximo Nível",
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White,
-                        fontSize = 14.sp
-                    )
-                }
+//                Spacer(modifier = Modifier.height(36.dp))
+//                Button(
+//                    onClick = {},
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .height(48.dp),
+//                    shape = RoundedCornerShape(16.dp),
+//                    colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.azul1))
+//                ) {
+//                    Text(
+//                        text = "Próximo Nível",
+//                        fontWeight = FontWeight.Bold,
+//                        color = Color.White,
+//                        fontSize = 14.sp
+//                    )
+//                }
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(
-                    onClick = {},
+                    onClick = {navController.navigate("opcoesDeNiveis")},
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp),
@@ -152,7 +152,7 @@ fun TelaResultadoScreen(navController: NavController) {
                     colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.azul1))
                 ) {
                     Text(
-                        text = "Voltar ao Menu",
+                        text = "Voltar aos Níveis",
                         fontWeight = FontWeight.Bold,
                         color = Color.White,
                         fontSize = 14.sp
