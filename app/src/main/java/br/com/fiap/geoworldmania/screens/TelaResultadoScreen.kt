@@ -33,9 +33,13 @@ import androidx.navigation.NavController
 import br.com.fiap.geoworldmania.R
 
 @Composable
-fun TelaResultadoScreen(navController: NavController) {
+fun TelaResultadoScreen() {
 
     var acertos by remember {
+        mutableStateOf(0)
+    }
+
+    var erros by remember {
         mutableStateOf(0)
     }
 
@@ -63,7 +67,7 @@ fun TelaResultadoScreen(navController: NavController) {
                     color = colorResource(id = R.color.azul5)
                 )
             }
-            //-----Card Acertos
+            //-----Card Acertos e erros
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -92,9 +96,27 @@ fun TelaResultadoScreen(navController: NavController) {
                             color = colorResource(id = R.color.azul5),
                             textAlign = TextAlign.Center
                         )
-                        Spacer(modifier = Modifier.height(82.dp))
+                        Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "${acertos}/10",
+                            text = "${acertos}",
+                            modifier = Modifier.fillMaxWidth(),
+                            fontSize = 60.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = colorResource(id = R.color.azul5),
+                            textAlign = TextAlign.Center
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(
+                            text = "Erros",
+                            modifier = Modifier.fillMaxWidth(),
+                            fontSize = 48.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = colorResource(id = R.color.azul5),
+                            textAlign = TextAlign.Center
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = "${erros}",
                             modifier = Modifier.fillMaxWidth(),
                             fontSize = 60.sp,
                             fontWeight = FontWeight.Bold,
@@ -141,9 +163,9 @@ fun TelaResultadoScreen(navController: NavController) {
     }
 }
 
-//@Preview(showBackground = true, showSystemUi = true)
-//@Composable
-//fun TelaResultadoScreenPreview() {
-//    TelaResultadoScreen()
-//}
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun TelaResultadoScreenPreview() {
+    TelaResultadoScreen()
+}
 
