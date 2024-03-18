@@ -40,7 +40,7 @@ fun OpcoesDeNiveisScreen(navController: NavController, jogoDaCapitalScreenViewMo
 
     Box(modifier = Modifier.fillMaxWidth()) {
         Column() {
-            Header(textContent = "", onClickVoltar = {navController.navigate("opcoesDeContinente")})
+            Header(textContent = "Capitais - Europa", onClickVoltar = {navController.navigate("opcoesDeContinente")})
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 modifier = Modifier.padding(start = 24.dp),
