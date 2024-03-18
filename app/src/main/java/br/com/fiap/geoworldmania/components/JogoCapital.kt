@@ -1,5 +1,6 @@
 package br.com.fiap.geoworldmania.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +13,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -23,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import br.com.fiap.geoworldmania.R
 import br.com.fiap.geoworldmania.viewModel.JogoDaCapitalScreenViewModel
 import br.com.fiap.geoworldmania.model.Pais
@@ -32,11 +35,14 @@ import coil.compose.AsyncImage
 fun JogoCapital(
     pais: Pais,
     opcoesDeEscolha: List<Pais>,
+    listaDePais: List<Pais>,
+    navController: NavController,
     jogoDaCapitalScreenViewModel: JogoDaCapitalScreenViewModel
 ) {
 
     var opcaoCorreta = pais.capital[0]
-
+    val acertos by jogoDaCapitalScreenViewModel.acertos.observeAsState(initial = 0)
+    val erros by jogoDaCapitalScreenViewModel.erros.observeAsState(initial = 0)
 
     // Nome do País
     Text(
@@ -81,11 +87,23 @@ fun JogoCapital(
     opcoesDeEscolha.forEach {
         Button(
             onClick = {
-
-                jogoDaCapitalScreenViewModel.adicionarPaisAleatorio(pais)
-                jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
-                jogoDaCapitalScreenViewModel.removerPaisAleatorio(pais)
-                jogoDaCapitalScreenViewModel.proximoPais()
+                if (it.capital[0] == opcaoCorreta) {
+                    var proxIndex = jogoDaCapitalScreenViewModel.saberQualPaisesAtual(pais)
+                    jogoDaCapitalScreenViewModel.removerPaisAleatorio(pais)
+                    if (proxIndex + 1  > listaDePais.count()) {
+                        navController.navigate("telaResultado")
+                    }
+                    if ( proxIndex <= listaDePais.count()) {
+                        jogoDaCapitalScreenViewModel.adicionarPaisAleatorio(listaDePais[proxIndex])
+                    }
+                    jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
+                    jogoDaCapitalScreenViewModel.proximoPais()
+                    jogoDaCapitalScreenViewModel.adicionarAcerto()
+                    Log.i("FIAP", "acertos: ${acertos}")
+                } else {
+                    jogoDaCapitalScreenViewModel.adicionarErro()
+                    Log.i("FIAP", "erros: ${erros}")
+                }
 
             },
             modifier = Modifier

@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     var navController = rememberNavController()
-                    NavHost(navController = navController, startDestination = "telaInicial") {
+                    NavHost(navController = navController, startDestination = "jogoDaCapital") {
                         composable(route = "telaInicial") {
                             TelaInicial(navController)
                         }

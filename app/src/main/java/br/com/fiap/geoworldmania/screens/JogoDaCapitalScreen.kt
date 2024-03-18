@@ -65,6 +65,8 @@ fun JogoDaCapitalScreen(
                     val nivel01 = resp.take(10)
 
                     jogoDaCapitalScreenViewModel.onListaPaisAleatorioStateChange(paisesAleatorios)
+                    jogoDaCapitalScreenViewModel.adicionarPaisAleatorio(nivel01[0])
+                    jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
                     jogoDaCapitalScreenViewModel.onNivel01Change(nivel01)
 
                 }
@@ -78,17 +80,13 @@ fun JogoDaCapitalScreen(
 
             for (i in nivel01.indices) {
                 if (i == indexAtual) {
-                    jogoDaCapitalScreenViewModel.adicionarPaisAleatorio(nivel01[i])
-                    jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
-
                     JogoCapital(
                         pais = nivel01[i],
                         listaPaisAleatoriosState,
+                        nivel01,
+                        navController,
                         jogoDaCapitalScreenViewModel
                     )
-
-                    jogoDaCapitalScreenViewModel.removerPaisAleatorio(nivel01[i])
-
                 }
             }
         }

@@ -19,6 +19,12 @@ class JogoDaCapitalScreenViewModel : ViewModel() {
     private val _indexAtual = MutableLiveData<Int>()
     val indexAtual: LiveData<Int> = _indexAtual
 
+    private val _acertos = MutableLiveData<Int>()
+    val acertos: LiveData<Int> = _acertos
+
+    private val _erros = MutableLiveData<Int>()
+    val erros: LiveData<Int> = _erros
+
     fun onListaPaisStateChange(novaLista: List<Pais>) {
         _listaPaisState.value = novaLista
     }
@@ -45,6 +51,12 @@ class JogoDaCapitalScreenViewModel : ViewModel() {
         _listaPaisAleatorioState.value = paisesAleatorios
     }
 
+    fun saberQualPaisesAtual( pais: Pais): Int {
+        val paisesAleatorios = _nivel01.value.orEmpty().toMutableList()
+        var index = paisesAleatorios.indexOf(pais)
+        return index + 1
+    }
+
     fun onNivel01Change(novoNivel01: List<Pais>) {
         _nivel01.value = novoNivel01
     }
@@ -53,4 +65,11 @@ class JogoDaCapitalScreenViewModel : ViewModel() {
         _indexAtual.value = (_indexAtual.value ?: 0) + 1
     }
 
+    fun adicionarAcerto() {
+        _acertos.value = (_acertos.value ?: 0) + 1
+    }
+
+    fun adicionarErro() {
+        _erros.value = (_erros.value ?: 0) + 1
+    }
 }
