@@ -25,6 +25,9 @@ class JogoDaCapitalScreenViewModel : ViewModel() {
     private val _erros = MutableLiveData<Int>()
     val erros: LiveData<Int> = _erros
 
+    private val _listaDeContineteState = MutableLiveData<List<Pais>>()
+    val listaDeContinente: LiveData<List<Pais>> = _listaDeContineteState
+
     fun onListaPaisStateChange(novaLista: List<Pais>) {
         _listaPaisState.value = novaLista
     }
@@ -51,6 +54,15 @@ class JogoDaCapitalScreenViewModel : ViewModel() {
         _listaPaisAleatorioState.value = paisesAleatorios
     }
 
+    fun apagarPaisesAleatorios(){
+        _listaPaisAleatorioState.value = emptyList()
+    }
+
+    fun encherPaisesAleatorios(listaDeContinente: List<Pais>) {
+        val paisesAleatorios = listaDeContinente.shuffled().take(3).toMutableList()
+        _listaPaisAleatorioState.value = paisesAleatorios
+    }
+
     fun saberQualPaisesAtual( pais: Pais): Int {
         val paisesAleatorios = _nivel01.value.orEmpty().toMutableList()
         var index = paisesAleatorios.indexOf(pais)
@@ -72,4 +84,10 @@ class JogoDaCapitalScreenViewModel : ViewModel() {
     fun adicionarErro() {
         _erros.value = (_erros.value ?: 0) + 1
     }
+
+    fun onListaDeContinenteStateChange(novaLista: List<Pais>) {
+        _listaDeContineteState.value = novaLista
+    }
+
+
 }

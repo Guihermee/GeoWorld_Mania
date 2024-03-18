@@ -3,39 +3,25 @@ package br.com.fiap.geoworldmania.screens
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.com.fiap.geoworldmania.R
 import br.com.fiap.geoworldmania.components.Ajuda
-import br.com.fiap.geoworldmania.components.AjudaAndVidas
 import br.com.fiap.geoworldmania.components.Header
 import br.com.fiap.geoworldmania.components.JogoCapital
 import br.com.fiap.geoworldmania.model.Pais
 import br.com.fiap.geoworldmania.service.RetrofitFactory
 import br.com.fiap.geoworldmania.viewModel.JogoDaCapitalScreenViewModel
-import coil.compose.AsyncImage
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -51,33 +37,48 @@ fun JogoDaCapitalScreen(
             .listaPaisAleatorioState.observeAsState(initial = listOf())
         val nivel01 by jogoDaCapitalScreenViewModel.nivel01.observeAsState(initial = listOf())
         val indexAtual by jogoDaCapitalScreenViewModel.indexAtual.observeAsState(initial = 0)
+        val listaDeContinente by jogoDaCapitalScreenViewModel.listaDeContinente.observeAsState(
+            initial = listOf()
+        )
+        var visibilidadeBotao by remember { mutableStateOf(true) }
 
-        Header(textContent = "Capital - Europa - Nível 1")
-        //AjudaAndVidas()
-        Ajuda()
+        Header(textContent = "Capital - Europa - Nível 1", onClickVoltar = {navController.navigate("opcoesDeNiveis")})
+        Ajuda(onClick = {})
 
-        Button(onClick = {
-            val call = RetrofitFactory().getPaisService().getPaisByContinente("europe")
-            call.enqueue(object : Callback<List<Pais>> {
-                override fun onResponse(call: Call<List<Pais>>, response: Response<List<Pais>>) {
-                    Log.i("FIAP", "onResponse: ${response.body()}")
+        if (visibilidadeBotao) {
+            Button(
 
-                    val resp = response.body()!!
-                    val paisesAleatorios = resp.shuffled().take(3).toMutableList()
-                    val nivel01 = resp.take(10)
+                onClick = {
+                    val call = RetrofitFactory().getPaisService().getPaisByContinente("europe")
+                    call.enqueue(object : Callback<List<Pais>> {
+                        override fun onResponse(
+                            call: Call<List<Pais>>,
+                            response: Response<List<Pais>>
+                        ) {
+                            Log.i("FIAP", "onResponse: ${response.body()}")
 
-                    jogoDaCapitalScreenViewModel.onListaPaisAleatorioStateChange(paisesAleatorios)
-                    jogoDaCapitalScreenViewModel.adicionarPaisAleatorio(nivel01[0])
-                    jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
-                    jogoDaCapitalScreenViewModel.onNivel01Change(nivel01)
+                            val resp = response.body()!!
+                            val paisesAleatorios = resp.shuffled().take(3).toMutableList()
+                            val nivel01 = resp.take(10)
 
-                }
+                            jogoDaCapitalScreenViewModel.onListaPaisAleatorioStateChange(
+                                paisesAleatorios
+                            )
+                            jogoDaCapitalScreenViewModel.adicionarPaisAleatorio(nivel01[0])
+                            jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
+                            jogoDaCapitalScreenViewModel.onNivel01Change(nivel01)
+                            jogoDaCapitalScreenViewModel.onListaDeContinenteStateChange(resp)
+                            visibilidadeBotao = false
+                        }
 
-                override fun onFailure(call: Call<List<Pais>>, t: Throwable) {
-                    Log.i("FIAP", "onResponse: ${t.message}")
-                }
-            })
-        }) {}
+                        override fun onFailure(call: Call<List<Pais>>, t: Throwable) {
+                            Log.i("FIAP", "onResponse: ${t.message}")
+                        }
+                    })
+                },
+            )
+            { Text(stringResource(id = R.string.iniciar_jogo)) }
+        }
         Column {
 
             for (i in nivel01.indices) {
@@ -86,6 +87,7 @@ fun JogoDaCapitalScreen(
                         pais = nivel01[i],
                         listaPaisAleatoriosState,
                         nivel01,
+                        listaDeContinente,
                         navController,
                         jogoDaCapitalScreenViewModel
                     )

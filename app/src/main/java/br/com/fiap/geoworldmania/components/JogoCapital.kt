@@ -36,6 +36,7 @@ fun JogoCapital(
     pais: Pais,
     opcoesDeEscolha: List<Pais>,
     listaDePais: List<Pais>,
+    listaDoContinente: List<Pais>,
     navController: NavController,
     jogoDaCapitalScreenViewModel: JogoDaCapitalScreenViewModel
 ) {
@@ -88,21 +89,40 @@ fun JogoCapital(
         Button(
             onClick = {
                 if (it.capital[0] == opcaoCorreta) {
+                    //Variavel para saber qual é o index do proximo pais do Nivel
                     var proxIndex = jogoDaCapitalScreenViewModel.saberQualPaisesAtual(pais)
-                    jogoDaCapitalScreenViewModel.removerPaisAleatorio(pais)
+
+                    /*Se Usuario escolher opção correta a lista opcoesDeEscolha será limpada e
+                     preenchida com outros 3 paises aleatorios da API*/
+                    jogoDaCapitalScreenViewModel.apagarPaisesAleatorios()
+                    jogoDaCapitalScreenViewModel.encherPaisesAleatorios(listaDoContinente)
+
+                    /*Se o proximo indice for maior que a Lista dos paises do nivel atual vai pra
+                    tela de resultado*/
                     if (proxIndex + 1  > listaDePais.count()) {
                         return@Button navController.navigate("telaResultado")
                     }
+                    /*Se o proximo index for menor do que a lista ele vai adicionar o proximo Pais
+                     da lista do nivel totalizando 4 paises naquela lista aleatoria*/
                     if ( proxIndex <= listaDePais.count()) {
                         jogoDaCapitalScreenViewModel.adicionarPaisAleatorio(listaDePais[proxIndex])
                     }
+
+                    /*Aqui ele embaralha os paises, porque quando adicionamos ela foi pro final
+                    da lista, embralhando garatimos a aleatoriedade*/
                     jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
+
+                    /*Adicionamos 1 na contagem do For que está sendo chamado lá no
+                    JogoDaCapitalScreen passando assim pro proximo pais*/
                     jogoDaCapitalScreenViewModel.proximoPais()
+
+                    // Adiciona +1 na variável acertos
                     jogoDaCapitalScreenViewModel.adicionarAcerto()
-                    Log.i("FIAP", "acertos: ${acertos}")
+
                 } else {
+                    // Adiciona +1 na variável erros
                     jogoDaCapitalScreenViewModel.adicionarErro()
-                    Log.i("FIAP", "erros: ${erros}")
+
                 }
 
             },

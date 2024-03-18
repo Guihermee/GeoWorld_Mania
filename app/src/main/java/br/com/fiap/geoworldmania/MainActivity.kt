@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     var navController = rememberNavController()
-                    NavHost(navController = navController, startDestination = "jogoDaCapital") {
+                    NavHost(navController = navController, startDestination = "telaInicial") {
                         composable(route = "telaInicial") {
                             TelaInicial(navController)
                         }
@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
                             OpcoesDeContinenteScreen(navController)
                         }
                         composable(route = "opcoesDeNiveis") {
-                            OpcoesDeNiveisScreen(navController)
+                            OpcoesDeNiveisScreen(navController, JogoDaCapitalScreenViewModel())
                         }
                         composable(route = "jogoDaCapital") {
                             JogoDaCapitalScreen(JogoDaCapitalScreenViewModel(), navController)

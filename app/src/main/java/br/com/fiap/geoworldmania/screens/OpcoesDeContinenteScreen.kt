@@ -27,7 +27,7 @@ fun OpcoesDeContinenteScreen(navController: NavController) {
 
     Box(modifier = Modifier.fillMaxSize()){
         Column {
-            Header(textContent = "Capitais")
+            Header(textContent = "Capitais", onClickVoltar = {navController.navigate("telaInicial")})
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 modifier = Modifier.padding(start = 24.dp),

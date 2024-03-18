@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,7 +23,7 @@ import br.com.fiap.geoworldmania.R
 
 
 @Composable
-fun Header(textContent: String) {
+fun Header(textContent: String, onClickVoltar: () -> Unit) {
     Box {
         Row(
             modifier = Modifier
@@ -35,18 +36,22 @@ fun Header(textContent: String) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.arrow_back_42),
-                    contentDescription = "Icone de voltar",
-                    modifier = Modifier.padding(start = 16.dp),
-                    tint = colorResource(id = R.color.azul5)
-                )
+                IconButton(
+                    onClickVoltar,
+                    modifier = Modifier.padding(start = 16.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.arrow_back_42),
+                        contentDescription = "Icone de voltar",
+                        tint = colorResource(id = R.color.azul5)
+                    )
+                }
 
                 Text(
                     text = textContent,
                     modifier = Modifier.padding(start = 16.dp),
                     color = colorResource(id = R.color.azul5),
-                    fontSize =  20.sp
+                    fontSize = 20.sp
                 )
             }
 
@@ -54,15 +59,9 @@ fun Header(textContent: String) {
                 painter = painterResource(id = R.drawable.more_vert_42),
                 contentDescription = "Ícone de mais",
                 modifier = Modifier.padding(end = 16.dp),
-                tint = colorResource (id = R.color.azul5)
+                tint = colorResource(id = R.color.azul5)
             )
         }
     }
     Spacer(modifier = Modifier.height(16.dp))
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-private fun HeaderPreview() {
-    Header("Capital - Europa - Nível 1")
 }

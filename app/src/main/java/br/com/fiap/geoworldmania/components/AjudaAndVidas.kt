@@ -23,7 +23,7 @@ import br.com.fiap.geoworldmania.R
 
 @Composable
 fun AjudaAndVidas() {
-    Box {
+    Button(onClick = { /*TODO*/ }) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -68,12 +68,14 @@ fun AjudaAndVidas() {
 }
 
 @Composable
-fun Ajuda() {
+fun Ajuda(onClick: () -> Unit) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(end = 16.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(end = 16.dp),
         horizontalArrangement = Arrangement.End
     ) {
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = onClick) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center,
@@ -91,10 +93,40 @@ fun Ajuda() {
                     )
                 }
             }
-
-
         }
     }
 
+    Spacer(modifier = Modifier.height(16.dp))
+}
+
+@Composable
+fun Vidas(onClick: () -> Unit) {
+    Box {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(end = 16.dp),
+            horizontalArrangement = Arrangement.End
+        ) {
+            Row {
+                Icon(
+                    painter = painterResource(id = R.drawable.heart_filled_42),
+                    contentDescription = "Ícone de Coração Cheio",
+                    tint = colorResource(id = R.color.vermelho)
+                )
+                Icon(
+                    painter = painterResource(id = R.drawable.heart_filled_42),
+                    contentDescription = "Ícone de Coração Cheio",
+                    tint = colorResource(id = R.color.vermelho)
+                )
+                Icon(
+                    painter = painterResource(id = R.drawable.heart_filled_42),
+                    contentDescription = "Ícone de Coração Cheio",
+                    tint = colorResource(id = R.color.vermelho),
+                )
+
+            }
+        }
+    }
     Spacer(modifier = Modifier.height(16.dp))
 }
