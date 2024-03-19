@@ -1,6 +1,5 @@
 package br.com.fiap.geoworldmania.screens
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,13 +9,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -26,13 +22,7 @@ import br.com.fiap.geoworldmania.R.drawable.lightbulb_filled_42_white
 import br.com.fiap.geoworldmania.components.Footer
 import br.com.fiap.geoworldmania.components.Header
 import br.com.fiap.geoworldmania.components.OpcoesEscolhaNivel
-import br.com.fiap.geoworldmania.model.Pais
-import br.com.fiap.geoworldmania.service.RetrofitFactory
 import br.com.fiap.geoworldmania.viewModel.JogoDaCapitalScreenViewModel
-import br.com.fiap.geoworldmania.viewModel.TelaInicialViewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 @Composable
 
@@ -42,7 +32,7 @@ fun OpcoesDeNiveisScreen(
 ) {
 
     Box(modifier = Modifier.fillMaxWidth()) {
-        Column() {
+        Column {
             Header(textContent = "Capitais - Europa", onClickVoltar = {
                 jogoDaCapitalScreenViewModel.onIniciarJogoChange(true)
                 navController.navigate("opcoesDeContinente")
@@ -112,9 +102,3 @@ fun OpcoesDeNiveisScreen(
     }
 
 }
-
-//@Preview (showBackground = true, showSystemUi = true)
-//@Composable
-//fun OpcoesDeNiveisScreenPreview (){
-//        OpcoesDeNiveisScreen()
-//}

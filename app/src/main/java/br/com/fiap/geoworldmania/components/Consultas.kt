@@ -40,8 +40,7 @@ fun ConsultaButton(texto1: String, imagem: Int, colors: ButtonColors) {
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            Column(
-            ) {
+            Column{
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
                     text = texto1,

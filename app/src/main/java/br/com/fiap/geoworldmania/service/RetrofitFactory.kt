@@ -16,5 +16,4 @@ class RetrofitFactory {
     fun getPaisService(): PaisService {
         return retrofitFactory.create(PaisService::class.java)
     }
-
 }

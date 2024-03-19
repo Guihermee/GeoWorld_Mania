@@ -7,9 +7,6 @@ import br.com.fiap.geoworldmania.model.Pais
 
 class JogoDaCapitalScreenViewModel : ViewModel() {
 
-    private val _listaPaisState = MutableLiveData<List<Pais>>()
-    val listaPaisState: LiveData<List<Pais>> = _listaPaisState
-
     private val _listaPaisAleatorioState = MutableLiveData<List<Pais>>()
     val listaPaisAleatorioState: LiveData<List<Pais>> = _listaPaisAleatorioState
 
@@ -31,10 +28,6 @@ class JogoDaCapitalScreenViewModel : ViewModel() {
     private val _iniciarJogo = MutableLiveData<Boolean>()
     val iniciarJogo: LiveData<Boolean> = _iniciarJogo
 
-    fun onListaPaisStateChange(novaLista: List<Pais>) {
-        _listaPaisState.value = novaLista
-    }
-
     fun onListaPaisAleatorioStateChange(novaListaAleatoria: List<Pais>) {
         _listaPaisAleatorioState.value = novaListaAleatoria
     }
@@ -46,12 +39,6 @@ class JogoDaCapitalScreenViewModel : ViewModel() {
     fun adicionarPaisAleatorio(pais: Pais) {
         val listaAtual = _listaPaisAleatorioState.value.orEmpty().toMutableList()
         listaAtual.add(pais)
-        _listaPaisAleatorioState.value = listaAtual
-    }
-
-    fun removerPaisAleatorio(pais: Pais) {
-        val listaAtual = _listaPaisAleatorioState.value.orEmpty().toMutableList()
-        listaAtual.remove(pais)
         _listaPaisAleatorioState.value = listaAtual
     }
 
@@ -70,11 +57,10 @@ class JogoDaCapitalScreenViewModel : ViewModel() {
         _listaPaisAleatorioState.value = paisesAleatorios
     }
 
-    fun saberQualPaisesAtual( pais: Pais, listaDePais: List<Pais>): Int {
+    fun saberQualPaisesAtual(pais: Pais, listaDePais: List<Pais>): Int {
         val paisesAleatorios = listaDePais.toMutableList()
-        var index = paisesAleatorios.indexOf(pais)
-        var indexsomado = index + 1
-        return indexsomado
+        val index = paisesAleatorios.indexOf(pais)
+        return index + 1
     }
 
     fun onNivel01Change(novoNivel01: List<Pais>) {
@@ -96,6 +82,4 @@ class JogoDaCapitalScreenViewModel : ViewModel() {
     fun onListaDeContinenteStateChange(novaLista: List<Pais>) {
         _listaDeContineteState.value = novaLista
     }
-
-
 }

@@ -25,7 +25,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -52,6 +51,7 @@ fun JogoDaCapitalScreen(
 ) {
     Column {
 
+        // Denifição e inicialização das variáveis
         val listaPaisAleatoriosState by jogoDaCapitalScreenViewModel
             .listaPaisAleatorioState.observeAsState(initial = listOf())
         val nivel01 by jogoDaCapitalScreenViewModel.nivel01.observeAsState(initial = listOf())
@@ -60,12 +60,13 @@ fun JogoDaCapitalScreen(
             initial = listOf()
         )
         val iniciarJogo by jogoDaCapitalScreenViewModel.iniciarJogo.observeAsState(initial = true)
-        Header(textContent = "Capital - Europa - Nível 1", onClickVoltar = {navController.navigate("opcoesDeNiveis")})
-
         var isDialog by remember {mutableStateOf(false)}
+
+        Header(textContent = "Capital - Europa - Nível 1", onClickVoltar = {navController.navigate("opcoesDeNiveis")})
 
         Ajuda(onClick = {isDialog = true})
 
+        // Botão de Dica
         if(isDialog){
             Dialog(onDismissRequest = { isDialog = false }, DialogProperties()) {
                 var letra by remember { mutableStateOf("") }
@@ -93,7 +94,7 @@ fun JogoDaCapitalScreen(
                                 .fillMaxSize()
                                 .fillMaxWidth()
                         ) {
-                            Column (horizontalAlignment = Alignment.CenterHorizontally,){
+                            Column (horizontalAlignment = Alignment.CenterHorizontally){
                                 Text(
                                     text = "A Primeira letra é $letra",
                                     fontWeight = FontWeight.Bold,
@@ -118,7 +119,7 @@ fun JogoDaCapitalScreen(
             }
         }
 
-
+        // Chamada da API
         if (iniciarJogo) {
             val call = RetrofitFactory().getPaisService().getPaisByContinente("europe")
             call.enqueue(object : Callback<List<Pais>> {
@@ -148,7 +149,7 @@ fun JogoDaCapitalScreen(
             })
         }
         Column {
-
+            // Construção do Jogo, percorrendo uma lista de paises
             for (i in nivel01.indices) {
                 if (i == indexAtual) {
                     JogoCapital(

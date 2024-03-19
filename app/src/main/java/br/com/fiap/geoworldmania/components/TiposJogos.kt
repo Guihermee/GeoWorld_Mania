@@ -40,8 +40,7 @@ fun TiposJogosButton(texto1: String, imagem: Int, colors: ButtonColors, onClick:
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            Column(
-            ) {
+            Column{
                 Text(
                     text = texto1,
                     fontWeight = FontWeight.Bold,

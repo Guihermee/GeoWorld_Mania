@@ -1,13 +1,11 @@
 package br.com.fiap.geoworldmania.screens
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -28,13 +26,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.com.fiap.geoworldmania.R
 import br.com.fiap.geoworldmania.components.ConsultaButton
-import br.com.fiap.geoworldmania.components.Footer
 import br.com.fiap.geoworldmania.components.FooterTelaInicial
 import br.com.fiap.geoworldmania.components.TiposJogosButton
 
@@ -90,8 +86,7 @@ fun TelaInicial(navController: NavController){
                             .fillMaxSize()
                             .fillMaxWidth()
                     ) {
-                        Column(
-                        ) {
+                        Column{
                             Text(
                                 text = "Continuar de onde parou",
                                 color = Color.Black,

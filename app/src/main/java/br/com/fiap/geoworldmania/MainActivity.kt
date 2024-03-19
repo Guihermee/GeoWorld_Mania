@@ -7,21 +7,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import br.com.fiap.geoworldmania.components.JogoCapital
 import br.com.fiap.geoworldmania.screens.JogoDaCapitalScreen
 import br.com.fiap.geoworldmania.screens.OpcoesDeContinenteScreen
 import br.com.fiap.geoworldmania.screens.OpcoesDeNiveisScreen
 import br.com.fiap.geoworldmania.screens.TelaInicial
 import br.com.fiap.geoworldmania.screens.TelaResultadoScreen
-import br.com.fiap.geoworldmania.viewModel.JogoDaCapitalScreenViewModel
 import br.com.fiap.geoworldmania.ui.theme.GeoWorldManiaTheme
-import br.com.fiap.geoworldmania.viewModel.TelaInicialViewModel
+import br.com.fiap.geoworldmania.viewModel.JogoDaCapitalScreenViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +29,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    var navController = rememberNavController()
+                    val navController = rememberNavController()
                     NavHost(navController = navController, startDestination = "telaInicial") {
                         composable(route = "telaInicial") {
                             TelaInicial(navController)

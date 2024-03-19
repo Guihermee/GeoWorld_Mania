@@ -1,6 +1,5 @@
 package br.com.fiap.geoworldmania.components
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,7 +15,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
@@ -27,8 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.com.fiap.geoworldmania.R
-import br.com.fiap.geoworldmania.viewModel.JogoDaCapitalScreenViewModel
 import br.com.fiap.geoworldmania.model.Pais
+import br.com.fiap.geoworldmania.viewModel.JogoDaCapitalScreenViewModel
 import coil.compose.AsyncImage
 
 @Composable
@@ -41,11 +39,9 @@ fun JogoCapital(
     jogoDaCapitalScreenViewModel: JogoDaCapitalScreenViewModel
 ) {
 
-    var opcaoCorreta = pais.capital[0]
+    val opcaoCorreta = pais.capital[0]
     val acertos by jogoDaCapitalScreenViewModel.acertos.observeAsState(initial = 0)
     val erros by jogoDaCapitalScreenViewModel.erros.observeAsState(initial = 0)
-
-
 
     // Nome do País
     Text(
@@ -84,17 +80,19 @@ fun JogoCapital(
         fontWeight = FontWeight.Bold
     )
 
+    val corCard by remember { mutableIntStateOf(R.color.azul1) }
     // Criação das opções de escolha
-    var corCard by remember { mutableIntStateOf(R.color.azul1) }
-
     opcoesDeEscolha.forEach {
         Button(
             onClick = {
                 if (it.capital[0] == opcaoCorreta) {
                     //Variavel para saber qual é o index do proximo pais do Nivel.
-                    var proxIndex = jogoDaCapitalScreenViewModel.saberQualPaisesAtual(pais, listaDePais)
+                    val proxIndex =
+                        jogoDaCapitalScreenViewModel.saberQualPaisesAtual(pais, listaDePais)
+
                     // Adiciona +1 na variável acertos
                     jogoDaCapitalScreenViewModel.adicionarAcerto()
+
                     /*Se Usuario escolher opção correta a lista opcoesDeEscolha será limpada e
                      preenchida com outros 3 paises aleatorios da API*/
                     jogoDaCapitalScreenViewModel.apagarPaisesAleatorios()
@@ -102,12 +100,13 @@ fun JogoCapital(
 
                     /*Se o proximo indice for maior que a Lista dos paises do nivel atual vai pra
                     tela de resultado*/
-                    if (proxIndex + 1  > listaDePais.count()) {
+                    if (proxIndex + 1 > listaDePais.count()) {
                         return@Button navController.navigate("telaResultado?acertos=${acertos}?erros=${erros}")
                     }
+
                     /*Se o proximo index for menor do que a lista ele vai adicionar o proximo Pais
                      da lista do nivel totalizando 4 paises naquela lista aleatoria*/
-                    if ( proxIndex <= listaDePais.count()) {
+                    if (proxIndex <= listaDePais.count()) {
                         jogoDaCapitalScreenViewModel.adicionarPaisAleatorio(listaDePais[proxIndex])
                     }
 
@@ -119,13 +118,11 @@ fun JogoCapital(
                     JogoDaCapitalScreen passando assim pro proximo pais*/
                     jogoDaCapitalScreenViewModel.proximoPais()
 
-
                 } else {
                     // Adiciona +1 na variável erros
                     jogoDaCapitalScreenViewModel.adicionarErro()
 
                 }
-
             },
             modifier = Modifier
                 .fillMaxWidth()
