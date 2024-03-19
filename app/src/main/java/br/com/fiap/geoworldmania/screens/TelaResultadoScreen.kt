@@ -29,19 +29,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
 import br.com.fiap.geoworldmania.R
 
 @Composable
-fun TelaResultadoScreen(navController: NavController) {
-
-    var acertos by remember {
-        mutableStateOf(0)
-    }
-
-    var erros by remember {
-        mutableStateOf(0)
-    }
+fun TelaResultadoScreen(navController: NavController, acertos: Int, erros: Int) {
 
     Box(
         modifier = Modifier
@@ -163,9 +156,4 @@ fun TelaResultadoScreen(navController: NavController) {
     }
 }
 
-//@Preview(showBackground = true, showSystemUi = true)
-//@Composable
-//fun TelaResultadoScreenPreview() {
-//    TelaResultadoScreen()
-//}
 

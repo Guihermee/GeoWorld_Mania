@@ -8,9 +8,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import br.com.fiap.geoworldmania.components.JogoCapital
 import br.com.fiap.geoworldmania.screens.JogoDaCapitalScreen
 import br.com.fiap.geoworldmania.screens.OpcoesDeContinenteScreen
 import br.com.fiap.geoworldmania.screens.OpcoesDeNiveisScreen
@@ -44,10 +47,23 @@ class MainActivity : ComponentActivity() {
                         composable(route = "jogoDaCapital") {
                             JogoDaCapitalScreen(JogoDaCapitalScreenViewModel(), navController)
                         }
-                        composable(route = "telaResultado") {
-                            TelaResultadoScreen(navController)
+                        composable(
+                            route = "telaResultado?acertos={acertos}?erros={erros}",
+                            arguments = listOf(
+                                navArgument(name = "acertos"){
+                                    defaultValue = 0
+                                },
+                                navArgument(name = "erros"){
+                                    defaultValue = 0
+                                }
+                            )
+                        ) {
+                            TelaResultadoScreen(
+                                navController,
+                                it.arguments?.getInt("acertos")!!,
+                                it.arguments?.getInt("erros")!!
+                            )
                         }
-
                     }
                 }
             }

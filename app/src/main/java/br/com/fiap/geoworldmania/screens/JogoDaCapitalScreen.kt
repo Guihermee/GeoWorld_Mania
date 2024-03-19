@@ -29,7 +29,9 @@ import retrofit2.Response
 @Composable
 fun JogoDaCapitalScreen(
     jogoDaCapitalScreenViewModel: JogoDaCapitalScreenViewModel,
-    navController: NavController
+    navController: NavController,
+
+
 ) {
     Column {
 

@@ -45,6 +45,8 @@ fun JogoCapital(
     val acertos by jogoDaCapitalScreenViewModel.acertos.observeAsState(initial = 0)
     val erros by jogoDaCapitalScreenViewModel.erros.observeAsState(initial = 0)
 
+
+
     // Nome do País
     Text(
         text = pais.nome.portugues.common,
@@ -91,7 +93,8 @@ fun JogoCapital(
                 if (it.capital[0] == opcaoCorreta) {
                     //Variavel para saber qual é o index do proximo pais do Nivel
                     var proxIndex = jogoDaCapitalScreenViewModel.saberQualPaisesAtual(pais)
-
+                    // Adiciona +1 na variável acertos
+                    jogoDaCapitalScreenViewModel.adicionarAcerto()
                     /*Se Usuario escolher opção correta a lista opcoesDeEscolha será limpada e
                      preenchida com outros 3 paises aleatorios da API*/
                     jogoDaCapitalScreenViewModel.apagarPaisesAleatorios()
@@ -100,7 +103,7 @@ fun JogoCapital(
                     /*Se o proximo indice for maior que a Lista dos paises do nivel atual vai pra
                     tela de resultado*/
                     if (proxIndex + 1  > listaDePais.count()) {
-                        return@Button navController.navigate("telaResultado")
+                        return@Button navController.navigate("telaResultado?acertos=${acertos}?erros=${erros}")
                     }
                     /*Se o proximo index for menor do que a lista ele vai adicionar o proximo Pais
                      da lista do nivel totalizando 4 paises naquela lista aleatoria*/
@@ -116,8 +119,6 @@ fun JogoCapital(
                     JogoDaCapitalScreen passando assim pro proximo pais*/
                     jogoDaCapitalScreenViewModel.proximoPais()
 
-                    // Adiciona +1 na variável acertos
-                    jogoDaCapitalScreenViewModel.adicionarAcerto()
 
                 } else {
                     // Adiciona +1 na variável erros
