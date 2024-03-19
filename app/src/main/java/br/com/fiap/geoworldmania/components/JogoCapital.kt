@@ -120,10 +120,6 @@ fun JogoCapital(
         }
     }
 
-
-
-
-
     fun verifica00(): Int {
         if (opcoesDeEscolha[0].capital[0] != opcaoCorreta){
             corCard00 = R.color.vermelho
@@ -178,10 +174,12 @@ fun JogoCapital(
                 verificarSeAcertou(pais)
                 if(pais.capital[0] == opcaoCorreta) {
                     //Variavel para saber qual é o index do proximo pais do Nivel.
-                    val proxIndex =
+                    var proxIndex =
                         jogoDaCapitalScreenViewModel.saberQualPaisesAtual(pais, listaDePais)
 
                     if (proxIndex + 1 > listaDePais.count()) {
+                        proxIndex -= 1
+                        jogoDaCapitalScreenViewModel.adicionarPaisAleatorio(listaDePais[proxIndex])
                         return@Button navController.navigate("telaResultado?acertos=${acertos}?erros=${erros}")
                     }
 
