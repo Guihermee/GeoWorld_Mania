@@ -36,11 +36,18 @@ import retrofit2.Response
 
 @Composable
 
-fun OpcoesDeNiveisScreen(navController: NavController, jogoDaCapitalScreenViewModel: JogoDaCapitalScreenViewModel) {
+fun OpcoesDeNiveisScreen(
+    navController: NavController,
+    jogoDaCapitalScreenViewModel: JogoDaCapitalScreenViewModel
+) {
 
     Box(modifier = Modifier.fillMaxWidth()) {
         Column() {
-            Header(textContent = "Capitais - Europa", onClickVoltar = {navController.navigate("opcoesDeContinente")})
+            Header(textContent = "Capitais - Europa", onClickVoltar = {
+                jogoDaCapitalScreenViewModel.onIniciarJogoChange(true)
+                navController.navigate("opcoesDeContinente")
+
+            })
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 modifier = Modifier.padding(start = 24.dp),

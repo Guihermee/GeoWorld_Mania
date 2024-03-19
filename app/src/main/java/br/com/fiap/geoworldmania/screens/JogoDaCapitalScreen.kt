@@ -59,8 +59,7 @@ fun JogoDaCapitalScreen(
         val listaDeContinente by jogoDaCapitalScreenViewModel.listaDeContinente.observeAsState(
             initial = listOf()
         )
-        var visibilidadeBotao by remember { mutableStateOf(true) }
-
+        val iniciarJogo by jogoDaCapitalScreenViewModel.iniciarJogo.observeAsState(initial = true)
         Header(textContent = "Capital - Europa - Nível 1", onClickVoltar = {navController.navigate("opcoesDeNiveis")})
 
         var isDialog by remember {mutableStateOf(false)}
@@ -120,39 +119,33 @@ fun JogoDaCapitalScreen(
         }
 
 
-        if (visibilidadeBotao) {
-            Button(
+        if (iniciarJogo) {
+            val call = RetrofitFactory().getPaisService().getPaisByContinente("europe")
+            call.enqueue(object : Callback<List<Pais>> {
+                override fun onResponse(
+                    call: Call<List<Pais>>,
+                    response: Response<List<Pais>>
+                ) {
+                    Log.i("FIAP", "onResponse: ${response.body()}")
 
-                onClick = {
-                    val call = RetrofitFactory().getPaisService().getPaisByContinente("europe")
-                    call.enqueue(object : Callback<List<Pais>> {
-                        override fun onResponse(
-                            call: Call<List<Pais>>,
-                            response: Response<List<Pais>>
-                        ) {
-                            Log.i("FIAP", "onResponse: ${response.body()}")
+                    val resp = response.body()!!
+                    val paisesAleatorios = resp.shuffled().take(3).toMutableList()
+                    val nivel01 = resp.take(10)
 
-                            val resp = response.body()!!
-                            val paisesAleatorios = resp.shuffled().take(3).toMutableList()
-                            val nivel01 = resp.take(10)
+                    jogoDaCapitalScreenViewModel.onListaPaisAleatorioStateChange(
+                        paisesAleatorios
+                    )
+                    jogoDaCapitalScreenViewModel.adicionarPaisAleatorio(nivel01[0])
+                    jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
+                    jogoDaCapitalScreenViewModel.onNivel01Change(nivel01)
+                    jogoDaCapitalScreenViewModel.onListaDeContinenteStateChange(resp)
+                    jogoDaCapitalScreenViewModel.onIniciarJogoChange(false)
+                }
 
-                            jogoDaCapitalScreenViewModel.onListaPaisAleatorioStateChange(
-                                paisesAleatorios
-                            )
-                            jogoDaCapitalScreenViewModel.adicionarPaisAleatorio(nivel01[0])
-                            jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
-                            jogoDaCapitalScreenViewModel.onNivel01Change(nivel01)
-                            jogoDaCapitalScreenViewModel.onListaDeContinenteStateChange(resp)
-                            visibilidadeBotao = false
-                        }
-
-                        override fun onFailure(call: Call<List<Pais>>, t: Throwable) {
-                            Log.i("FIAP", "onResponse: ${t.message}")
-                        }
-                    })
-                },
-            )
-            { Text(stringResource(id = R.string.iniciar_jogo)) }
+                override fun onFailure(call: Call<List<Pais>>, t: Throwable) {
+                    Log.i("FIAP", "onResponse: ${t.message}")
+                }
+            })
         }
         Column {
 

@@ -28,12 +28,19 @@ class JogoDaCapitalScreenViewModel : ViewModel() {
     private val _listaDeContineteState = MutableLiveData<List<Pais>>()
     val listaDeContinente: LiveData<List<Pais>> = _listaDeContineteState
 
+    private val _iniciarJogo = MutableLiveData<Boolean>()
+    val iniciarJogo: LiveData<Boolean> = _iniciarJogo
+
     fun onListaPaisStateChange(novaLista: List<Pais>) {
         _listaPaisState.value = novaLista
     }
 
     fun onListaPaisAleatorioStateChange(novaListaAleatoria: List<Pais>) {
         _listaPaisAleatorioState.value = novaListaAleatoria
+    }
+
+    fun onIniciarJogoChange(novoBoolean: Boolean) {
+        _iniciarJogo.value = novoBoolean
     }
 
     fun adicionarPaisAleatorio(pais: Pais) {
@@ -63,10 +70,11 @@ class JogoDaCapitalScreenViewModel : ViewModel() {
         _listaPaisAleatorioState.value = paisesAleatorios
     }
 
-    fun saberQualPaisesAtual( pais: Pais): Int {
-        val paisesAleatorios = _nivel01.value.orEmpty().toMutableList()
+    fun saberQualPaisesAtual( pais: Pais, listaDePais: List<Pais>): Int {
+        val paisesAleatorios = listaDePais.toMutableList()
         var index = paisesAleatorios.indexOf(pais)
-        return index + 1
+        var indexsomado = index + 1
+        return indexsomado
     }
 
     fun onNivel01Change(novoNivel01: List<Pais>) {

@@ -91,8 +91,8 @@ fun JogoCapital(
         Button(
             onClick = {
                 if (it.capital[0] == opcaoCorreta) {
-                    //Variavel para saber qual é o index do proximo pais do Nivel
-                    var proxIndex = jogoDaCapitalScreenViewModel.saberQualPaisesAtual(pais)
+                    //Variavel para saber qual é o index do proximo pais do Nivel.
+                    var proxIndex = jogoDaCapitalScreenViewModel.saberQualPaisesAtual(pais, listaDePais)
                     // Adiciona +1 na variável acertos
                     jogoDaCapitalScreenViewModel.adicionarAcerto()
                     /*Se Usuario escolher opção correta a lista opcoesDeEscolha será limpada e
