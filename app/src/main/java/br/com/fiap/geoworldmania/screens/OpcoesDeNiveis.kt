@@ -49,6 +49,7 @@ fun OpcoesDeNiveisScreen(navController: NavController, jogoDaCapitalScreenViewMo
                 fontWeight = FontWeight.Bold,
                 color = colorResource(id = R.color.azul5)
             )
+
             OpcoesEscolhaNivel(
                 texto1 = "Nível 1: 10 Países",
                 imagem = lightbulb_filled_42_white,
@@ -99,7 +100,6 @@ fun OpcoesDeNiveisScreen(navController: NavController, jogoDaCapitalScreenViewMo
                 onClick = {},
                 colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.vermelho))
             )
-
         }
         Box(contentAlignment = Alignment.BottomCenter) { Footer() }
     }

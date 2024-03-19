@@ -156,4 +156,3 @@ fun TelaResultadoScreen(navController: NavController, acertos: Int, erros: Int) 
     }
 }
 
-

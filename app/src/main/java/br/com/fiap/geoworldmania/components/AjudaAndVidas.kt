@@ -9,11 +9,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -75,7 +77,10 @@ fun Ajuda(onClick: () -> Unit) {
             .padding(end = 16.dp),
         horizontalArrangement = Arrangement.End
     ) {
-        Button(onClick = onClick) {
+        Button(
+            onClick = onClick,
+            colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent)
+        ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center,
@@ -85,10 +90,12 @@ fun Ajuda(onClick: () -> Unit) {
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.lightbulb_outline_42),
+                        tint = colorResource(id = R.color.azul5),
                         contentDescription = "Icone de uma lâmpada"
                     )
                     Text(
                         text = stringResource(id = R.string.CampoDica),
+                        color = colorResource(id = R.color.azul5),
                         fontSize = 20.sp
                     )
                 }
