@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
@@ -80,48 +81,116 @@ fun JogoCapital(
         fontWeight = FontWeight.Bold
     )
 
-    val corCard by remember { mutableIntStateOf(R.color.azul1) }
-    // Criação das opções de escolha
-    opcoesDeEscolha.forEach {
+    var corCard00 by remember { mutableIntStateOf(R.color.azul1) }
+    var corCard01 by remember { mutableIntStateOf(R.color.azul1) }
+    var corCard02 by remember { mutableIntStateOf(R.color.azul1) }
+    var corCard03 by remember { mutableIntStateOf(R.color.azul1) }
+
+    fun verificarSeAcertou(it: Pais) {
+        if (it.capital[0] == opcaoCorreta) {
+
+
+            // Adiciona +1 na variável acertos
+            jogoDaCapitalScreenViewModel.adicionarAcerto()
+
+            /*Se Usuario escolher opção correta a lista opcoesDeEscolha será limpada e
+             preenchida com outros 3 paises aleatorios da API*/
+            jogoDaCapitalScreenViewModel.apagarPaisesAleatorios()
+            jogoDaCapitalScreenViewModel.encherPaisesAleatorios(listaDoContinente)
+
+            /*Se o proximo indice for maior que a Lista dos paises do nivel atual vai pra
+            tela de resultado*/
+
+
+            /*Se o proximo index for menor do que a lista ele vai adicionar o proximo Pais
+             da lista do nivel totalizando 4 paises naquela lista aleatoria*/
+
+
+            /*Aqui ele embaralha os paises, porque quando adicionamos ela foi pro final
+            da lista, embralhando garatimos a aleatoriedade*/
+
+            /*Adicionamos 1 na contagem do For que está sendo chamado lá no
+            JogoDaCapitalScreen passando assim pro proximo pais*/
+
+
+        } else {
+            // Adiciona +1 na variável erros
+            jogoDaCapitalScreenViewModel.adicionarErro()
+
+        }
+    }
+
+
+
+
+
+    fun verifica00(): Int {
+        if (opcoesDeEscolha[0].capital[0] != opcaoCorreta){
+            corCard00 = R.color.vermelho
+            return corCard00
+        }
+
+        return R.color.azul1
+    }
+
+    fun verifica01(): Int {
+        if (opcoesDeEscolha[1].capital[0] != opcaoCorreta){
+            corCard01 = R.color.vermelho
+            return corCard01
+        }
+
+        return R.color.azul1
+    }
+
+    fun verifica02(): Int {
+        if (opcoesDeEscolha[2].capital[0] != opcaoCorreta){
+            corCard02 = R.color.vermelho
+            return corCard02
+        }
+
+        return R.color.azul1
+    }
+
+    fun verifica03(): Int {
+        if (opcoesDeEscolha[3].capital[0] != opcaoCorreta){
+            corCard03 = R.color.vermelho
+            return corCard03
+        }
+
+        return R.color.azul1
+    }
+
+    @Composable
+    fun botao(pais: Pais, corCard: Int) {
         Button(
             onClick = {
-                if (it.capital[0] == opcaoCorreta) {
+
+                if (pais == opcoesDeEscolha[0]) {
+                    verifica00()
+                } else if (pais == opcoesDeEscolha[1]) {
+                    verifica01()
+                } else if (pais == opcoesDeEscolha[2]) {
+                    verifica02()
+                } else if (pais == opcoesDeEscolha[3]) {
+                    verifica03()
+                }
+
+                verificarSeAcertou(pais)
+                if(pais.capital[0] == opcaoCorreta) {
                     //Variavel para saber qual é o index do proximo pais do Nivel.
                     val proxIndex =
                         jogoDaCapitalScreenViewModel.saberQualPaisesAtual(pais, listaDePais)
 
-                    // Adiciona +1 na variável acertos
-                    jogoDaCapitalScreenViewModel.adicionarAcerto()
-
-                    /*Se Usuario escolher opção correta a lista opcoesDeEscolha será limpada e
-                     preenchida com outros 3 paises aleatorios da API*/
-                    jogoDaCapitalScreenViewModel.apagarPaisesAleatorios()
-                    jogoDaCapitalScreenViewModel.encherPaisesAleatorios(listaDoContinente)
-
-                    /*Se o proximo indice for maior que a Lista dos paises do nivel atual vai pra
-                    tela de resultado*/
                     if (proxIndex + 1 > listaDePais.count()) {
                         return@Button navController.navigate("telaResultado?acertos=${acertos}?erros=${erros}")
                     }
 
-                    /*Se o proximo index for menor do que a lista ele vai adicionar o proximo Pais
-                     da lista do nivel totalizando 4 paises naquela lista aleatoria*/
                     if (proxIndex <= listaDePais.count()) {
                         jogoDaCapitalScreenViewModel.adicionarPaisAleatorio(listaDePais[proxIndex])
+                        jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
+
                     }
-
-                    /*Aqui ele embaralha os paises, porque quando adicionamos ela foi pro final
-                    da lista, embralhando garatimos a aleatoriedade*/
-                    jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
-
-                    /*Adicionamos 1 na contagem do For que está sendo chamado lá no
-                    JogoDaCapitalScreen passando assim pro proximo pais*/
                     jogoDaCapitalScreenViewModel.proximoPais()
-
-                } else {
-                    // Adiciona +1 na variável erros
-                    jogoDaCapitalScreenViewModel.adicionarErro()
-
                 }
             },
             modifier = Modifier
@@ -131,10 +200,16 @@ fun JogoCapital(
             colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = corCard))
         ) {
             Text(
-                text = it.capital[0],
+                text = pais.capital[0],
                 fontSize = 32.sp
             )
         }
         Spacer(modifier = Modifier.height(6.dp))
     }
+
+    botao(pais = opcoesDeEscolha[0], corCard00)
+    botao(pais = opcoesDeEscolha[1], corCard01)
+    botao(pais = opcoesDeEscolha[2], corCard02)
+    botao(pais = opcoesDeEscolha[3], corCard03)
+
 }
