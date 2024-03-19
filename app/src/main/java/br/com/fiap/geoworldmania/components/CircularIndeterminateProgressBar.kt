@@ -38,11 +38,19 @@ fun CircularIndeterminateProgressBar(
     }
 
 }}
-//
-//@Preview (showBackground = true, showSystemUi = true)
-//@Composable
-//
-//fun ProgressBarPreview(
-//){
-//ProgressBar()
-//}
+
+// Inserir a barra no screen do Jogo das capitais, pode ser logo apos o header, por ex.
+//     CircularIndeterminateProgressBar(isDisplayed = loading)
+
+
+// Precisa fazer uma variavel (é a loading que esta acima) mutable com true e false no local onde se inicia o jogo.
+
+//Declarando a variavel
+//  val loading = mutableStateOf(false)
+
+// Aqui vai no inicio do jogo
+// loading.value = true
+// loading.value = false
+
+
+// video onde o cara ensina: https://youtu.be/MPSZl4EVjQk
