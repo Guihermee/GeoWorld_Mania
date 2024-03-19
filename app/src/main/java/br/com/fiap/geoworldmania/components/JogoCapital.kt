@@ -151,14 +151,19 @@ fun JogoCapital(
 
                 // Aqui é verificado se o botão clicaco (pais) é igual o botão 1,2,3,4 e
                 // mudando a cor do botão correspondente
-                if (pais == opcoesDeEscolha[0]) {
-                    verifica00()
-                } else if (pais == opcoesDeEscolha[1]) {
-                    verifica01()
-                } else if (pais == opcoesDeEscolha[2]) {
-                    verifica02()
-                } else if (pais == opcoesDeEscolha[3]) {
-                    verifica03()
+                when (pais) {
+                    opcoesDeEscolha[0] -> {
+                        verifica00()
+                    }
+                    opcoesDeEscolha[1] -> {
+                        verifica01()
+                    }
+                    opcoesDeEscolha[2] -> {
+                        verifica02()
+                    }
+                    opcoesDeEscolha[3] -> {
+                        verifica03()
+                    }
                 }
 
                 verificarSeAcertou(pais)
