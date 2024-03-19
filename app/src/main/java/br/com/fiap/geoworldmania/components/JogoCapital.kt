@@ -81,14 +81,15 @@ fun JogoCapital(
         fontWeight = FontWeight.Bold
     )
 
+    // Declaração das variáveis de estado das cores dos botões
     var corCard00 by remember { mutableIntStateOf(R.color.azul1) }
     var corCard01 by remember { mutableIntStateOf(R.color.azul1) }
     var corCard02 by remember { mutableIntStateOf(R.color.azul1) }
     var corCard03 by remember { mutableIntStateOf(R.color.azul1) }
 
+    // Essa função verifica se o Usuário acertou e apaga a lista de opções e adiciona 3 aleatorios
     fun verificarSeAcertou(it: Pais) {
         if (it.capital[0] == opcaoCorreta) {
-
 
             // Adiciona +1 na variável acertos
             jogoDaCapitalScreenViewModel.adicionarAcerto()
@@ -98,28 +99,15 @@ fun JogoCapital(
             jogoDaCapitalScreenViewModel.apagarPaisesAleatorios()
             jogoDaCapitalScreenViewModel.encherPaisesAleatorios(listaDoContinente)
 
-            /*Se o proximo indice for maior que a Lista dos paises do nivel atual vai pra
-            tela de resultado*/
-
-
-            /*Se o proximo index for menor do que a lista ele vai adicionar o proximo Pais
-             da lista do nivel totalizando 4 paises naquela lista aleatoria*/
-
-
-            /*Aqui ele embaralha os paises, porque quando adicionamos ela foi pro final
-            da lista, embralhando garatimos a aleatoriedade*/
-
-            /*Adicionamos 1 na contagem do For que está sendo chamado lá no
-            JogoDaCapitalScreen passando assim pro proximo pais*/
-
-
         } else {
+
             // Adiciona +1 na variável erros
             jogoDaCapitalScreenViewModel.adicionarErro()
 
         }
     }
 
+    // Funções que muda as variavel de estado para vermelho
     fun verifica00(): Int {
         if (opcoesDeEscolha[0].capital[0] != opcaoCorreta){
             corCard00 = R.color.vermelho
@@ -161,6 +149,8 @@ fun JogoCapital(
         Button(
             onClick = {
 
+                // Aqui é verificado se o botão clicaco (pais) é igual o botão 1,2,3,4 e
+                // mudando a cor do botão correspondente
                 if (pais == opcoesDeEscolha[0]) {
                     verifica00()
                 } else if (pais == opcoesDeEscolha[1]) {
@@ -172,22 +162,29 @@ fun JogoCapital(
                 }
 
                 verificarSeAcertou(pais)
+
+                // Continua a verificar se o usário clicou na opção correta e adiciona o próx pais na lista totalizando 4 paises
                 if(pais.capital[0] == opcaoCorreta) {
                     //Variavel para saber qual é o index do proximo pais do Nivel.
                     var proxIndex =
                         jogoDaCapitalScreenViewModel.saberQualPaisesAtual(pais, listaDePais)
 
+                    // Verificação se acabou a lista para ir pra tela de resultado
                     if (proxIndex + 1 > listaDePais.count()) {
                         proxIndex -= 1
                         jogoDaCapitalScreenViewModel.adicionarPaisAleatorio(listaDePais[proxIndex])
                         return@Button navController.navigate("telaResultado?acertos=${acertos}?erros=${erros}")
                     }
 
+                    // Se não for pra tela de resultado aqui é adicionado o País na lista e
+                    // embaralha ela para a próxima pergunta
                     if (proxIndex <= listaDePais.count()) {
                         jogoDaCapitalScreenViewModel.adicionarPaisAleatorio(listaDePais[proxIndex])
                         jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
 
                     }
+
+                    // Adiciona +1 no i do for do jogoDaCapitalScreen
                     jogoDaCapitalScreenViewModel.proximoPais()
                 }
             },
@@ -205,6 +202,7 @@ fun JogoCapital(
         Spacer(modifier = Modifier.height(6.dp))
     }
 
+    // Opções de escolhas
     botao(pais = opcoesDeEscolha[0], corCard00)
     botao(pais = opcoesDeEscolha[1], corCard01)
     botao(pais = opcoesDeEscolha[2], corCard02)
