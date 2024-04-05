@@ -37,12 +37,35 @@ fun JogoCapital(
     listaDePais: List<Pais>,
     listaDoContinente: List<Pais>,
     navController: NavController,
-    jogoDaCapitalScreenViewModel: JogoDaCapitalScreenViewModel
+    jogoDaCapitalScreenViewModel: JogoDaCapitalScreenViewModel,
+    desafio: Boolean,
+    continente: String,
+    tituloJogo: String,
+    tituloContinente: String
 ) {
 
     val opcaoCorreta = pais.capital[0]
     val acertos by jogoDaCapitalScreenViewModel.acertos.observeAsState(initial = 0)
     val erros by jogoDaCapitalScreenViewModel.erros.observeAsState(initial = 0)
+    val heart01 by jogoDaCapitalScreenViewModel.heart01.observeAsState(initial = true)
+    val heart02 by jogoDaCapitalScreenViewModel.heart02.observeAsState(initial = true)
+    val heart03 by jogoDaCapitalScreenViewModel.heart03.observeAsState(initial = true)
+
+    if (erros == 1) {
+        jogoDaCapitalScreenViewModel.onHeart03Change(false)
+    } else if (erros == 2) {
+        jogoDaCapitalScreenViewModel.onHeart02Change(false)
+    } else if (erros == 3){
+        jogoDaCapitalScreenViewModel.onHeart01Change(false)
+        navController.navigate("telaResultado?acertos=${acertos}?erros=${erros}?continente=${continente}?tituloJogo=${tituloJogo}?tituloContinente=${tituloContinente}",)
+    }
+
+    if (desafio) {
+        Vidas(
+            onClick = {}, heart01, heart02, heart03
+        )
+    }
+
 
     // Nome do País
     Text(
@@ -88,7 +111,7 @@ fun JogoCapital(
     var corCard03 by remember { mutableIntStateOf(R.color.azul1) }
 
     // Essa função verifica se o Usuário acertou e apaga a lista de opções e adiciona 3 aleatorios
-    fun verificarSeAcertou(it: Pais) {
+    fun verificarSeAcertou(it: Pais, listadePais: List<Pais>, proxIndex: Int) {
         if (it.capital[0] == opcaoCorreta) {
 
             // Adiciona +1 na variável acertos
@@ -96,14 +119,15 @@ fun JogoCapital(
 
             /*Se Usuario escolher opção correta a lista opcoesDeEscolha será limpada e
              preenchida com outros 3 paises aleatorios da API*/
-            jogoDaCapitalScreenViewModel.apagarPaisesAleatorios()
-            jogoDaCapitalScreenViewModel.encherPaisesAleatorios(listaDoContinente)
+            jogoDaCapitalScreenViewModel.apagarListaPais()
+
+            // Essa função recebe o próximo Pais como parâmetro e exclui da listaDoContinente
+            // e adiciona 3 Paises
+            jogoDaCapitalScreenViewModel.encherPaisesAleatorios(listaDoContinente, listadePais, proxIndex)
 
         } else {
-
             // Adiciona +1 na variável erros
             jogoDaCapitalScreenViewModel.adicionarErro()
-
         }
     }
 
@@ -149,6 +173,11 @@ fun JogoCapital(
         Button(
             onClick = {
 
+                //Variavel para saber qual é o index do proximo pais do Nivel.
+                var proxIndex =
+                    jogoDaCapitalScreenViewModel.saberQualProxPais(pais, listaDePais)
+
+
                 // Aqui é verificado se o botão clicaco (pais) é igual o botão 1,2,3,4 e
                 // mudando a cor do botão correspondente
                 when (pais) {
@@ -166,30 +195,26 @@ fun JogoCapital(
                     }
                 }
 
-                verificarSeAcertou(pais)
+                verificarSeAcertou(pais, listaDePais, proxIndex)
 
                 // Continua a verificar se o usário clicou na opção correta e adiciona o próx pais na lista totalizando 4 paises
                 if(pais.capital[0] == opcaoCorreta) {
-                    //Variavel para saber qual é o index do proximo pais do Nivel.
-                    var proxIndex =
-                        jogoDaCapitalScreenViewModel.saberQualPaisesAtual(pais, listaDePais)
 
                     // Verificação se acabou a lista para ir pra tela de resultado
                     if (proxIndex + 1 > listaDePais.count()) {
                         proxIndex -= 1
-                        jogoDaCapitalScreenViewModel.adicionarPaisAleatorio(listaDePais[proxIndex])
-                        return@Button navController.navigate("telaResultado?acertos=${acertos}?erros=${erros}")
+                        jogoDaCapitalScreenViewModel.adicionarPaisCorreto(listaDePais[proxIndex])
+                        return@Button navController.navigate("telaResultado?acertos=${acertos}?erros=${erros}?continente=${continente}?tituloJogo=${tituloJogo}?tituloContinente=${tituloContinente}")
                     }
 
-                    // Se não for pra tela de resultado aqui é adicionado o País na lista e
+                    // Se não for pra tela de resultado aqui é adicionado o Proximo País na lista e
                     // embaralha ela para a próxima pergunta
                     if (proxIndex <= listaDePais.count()) {
-                        jogoDaCapitalScreenViewModel.adicionarPaisAleatorio(listaDePais[proxIndex])
+                        jogoDaCapitalScreenViewModel.adicionarPaisCorreto(listaDePais[proxIndex])
                         jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
-
                     }
 
-                    // Adiciona +1 no i do for do jogoDaCapitalScreen
+                    // Adiciona +1 no i do FOR do jogoDaCapitalScreen
                     jogoDaCapitalScreenViewModel.proximoPais()
                 }
             },

@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 
 
 @Composable
-fun OpcoesEscolhaCapital(texto1: String, imagem: Int, colors: ButtonColors, onClick: () -> Unit) {
+fun OpcoesEscolhaCapital(texto1: String, imagem: Int, colors: ButtonColors, onClick: () -> Unit, nivelConcluido: String) {
     Spacer(modifier = Modifier.height(4.dp))
     Button(
         onClick = onClick,
@@ -48,7 +48,7 @@ fun OpcoesEscolhaCapital(texto1: String, imagem: Int, colors: ButtonColors, onCl
                )
                Spacer(modifier = Modifier.height(10.dp))
                Text(
-                   text = "Níveis concluídos 0/10",
+                   text = nivelConcluido,
                    fontWeight = FontWeight.Normal,
                    color = Color.White,
                    fontSize = 12.sp

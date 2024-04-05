@@ -22,11 +22,11 @@ import br.com.fiap.geoworldmania.components.Header
 import br.com.fiap.geoworldmania.components.OpcoesEscolhaCapital
 
 @Composable
-fun OpcoesDeContinenteScreen(navController: NavController) {
+fun OpcoesDeContinenteScreen(navController: NavController, tituloJogo: String) {
 
     Box(modifier = Modifier.fillMaxSize()){
         Column {
-            Header(textContent = "Capitais", onClickVoltar = {navController.navigate("telaInicial")})
+            Header(textContent = tituloJogo, onClickVoltar = {navController.navigate("telaInicial")})
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 modifier = Modifier.padding(start = 24.dp),
@@ -40,42 +40,50 @@ fun OpcoesDeContinenteScreen(navController: NavController) {
                 imagem = R.drawable.america_do_sul,
                 onClick = {},
                 colors = ButtonDefaults
-                    .buttonColors(containerColor = colorResource(id = R.color.azul_claro))
+                    .buttonColors(containerColor = colorResource(id = R.color.azul_claro)),
+                nivelConcluido = "Niveis concluídos 0/10"
             )
             OpcoesEscolhaCapital(
                 texto1 = "America do Norte",
                 imagem = R.drawable.america_norte,
                 onClick = {},
                 colors = ButtonDefaults
-                    .buttonColors(containerColor = colorResource(id = R.color.roxo))
+                    .buttonColors(containerColor = colorResource(id = R.color.roxo)),
+                nivelConcluido = "Niveis concluídos 0/10"
             )
             OpcoesEscolhaCapital(
                 texto1 = "Asia",
                 imagem = R.drawable.asia,
                 onClick = {},
                 colors = ButtonDefaults
-                    .buttonColors(containerColor = colorResource(id = R.color.verde_claro))
+                    .buttonColors(containerColor = colorResource(id = R.color.verde_claro)),
+                nivelConcluido = "Niveis concluídos 0/10"
             )
             OpcoesEscolhaCapital(
                 texto1 = "Europa",
                 imagem = R.drawable.europa,
-                onClick = {navController.navigate("opcoesDeNiveis")},
+                onClick = {navController.navigate(
+                    "opcoesDeNiveis?continente=europe?tituloJogo=${tituloJogo}?tituloContinente=Europa"
+                )},
                 colors = ButtonDefaults
-                    .buttonColors(containerColor = colorResource(id = R.color.amarelomarrom))
+                    .buttonColors(containerColor = colorResource(id = R.color.amarelomarrom)),
+                nivelConcluido = "Niveis concluídos 0/7"
             )
             OpcoesEscolhaCapital(
                 texto1 = "Oceania",
                 imagem = R.drawable.oceania,
                 onClick = {},
                 colors = ButtonDefaults
-                    .buttonColors(containerColor = colorResource(id = R.color.vermelho))
+                    .buttonColors(containerColor = colorResource(id = R.color.vermelho)),
+                nivelConcluido = "Niveis concluídos 0/10"
             )
             OpcoesEscolhaCapital(
                 texto1 = "Todos os Paises",
                 imagem = R.drawable.planeta,
                 onClick = {},
                 colors = ButtonDefaults
-                    .buttonColors(containerColor = colorResource(id = R.color.azul_escuro))
+                    .buttonColors(containerColor = colorResource(id = R.color.azul_escuro)),
+                nivelConcluido = "Niveis concluídos 0/10"
             )
         }
         Box(contentAlignment = Alignment.BottomCenter ) { Footer() }

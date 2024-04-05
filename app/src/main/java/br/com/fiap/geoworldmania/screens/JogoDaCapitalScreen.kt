@@ -2,6 +2,7 @@ package br.com.fiap.geoworldmania.screens
 
 
 import android.util.Log
+import androidx.collection.emptyLongSet
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -35,6 +36,7 @@ import br.com.fiap.geoworldmania.R
 import br.com.fiap.geoworldmania.components.Ajuda
 import br.com.fiap.geoworldmania.components.Header
 import br.com.fiap.geoworldmania.components.JogoCapital
+import br.com.fiap.geoworldmania.components.Vidas
 import br.com.fiap.geoworldmania.model.Pais
 import br.com.fiap.geoworldmania.service.RetrofitFactory
 import br.com.fiap.geoworldmania.viewModel.JogoDaCapitalScreenViewModel
@@ -46,12 +48,16 @@ import retrofit2.Response
 fun JogoDaCapitalScreen(
     jogoDaCapitalScreenViewModel: JogoDaCapitalScreenViewModel,
     navController: NavController,
-
-
+    continente: String,
+    nivel: Int,
+    tituloJogo: String,
+    tituloContinente: String,
+    tituloNivel: String,
+    desafio: Boolean
 ) {
     Column {
 
-        // Denifição e inicialização das variáveis
+        // Definição e inicialização das variáveis
         val listaPaisAleatoriosState by jogoDaCapitalScreenViewModel
             .listaPaisAleatorioState.observeAsState(initial = listOf())
         val nivel01 by jogoDaCapitalScreenViewModel.nivel01.observeAsState(initial = listOf())
@@ -60,14 +66,21 @@ fun JogoDaCapitalScreen(
             initial = listOf()
         )
         val iniciarJogo by jogoDaCapitalScreenViewModel.iniciarJogo.observeAsState(initial = true)
-        var isDialog by remember {mutableStateOf(false)}
+        var isDialog by remember { mutableStateOf(false) }
 
-        Header(textContent = "Capital - Europa - Nível 1", onClickVoltar = {navController.navigate("opcoesDeNiveis")})
+        Header(
+            textContent = "$tituloJogo - $tituloContinente - $tituloNivel",
+            onClickVoltar = { navController.navigate("opcoesDeNiveis?continente=${continente}?tituloJogo=${tituloJogo}?tituloContinente=${tituloContinente}") }
+        )
 
-        Ajuda(onClick = {isDialog = true})
+        // Verifica se é um desafio (Desafios tem vida e não tem dicas, caso ao contrario só dicas)
+        if (!desafio) {
+            Ajuda(onClick = { isDialog = true })
+        }
+
 
         // Botão de Dica
-        if(isDialog){
+        if (isDialog) {
             Dialog(onDismissRequest = { isDialog = false }, DialogProperties()) {
                 var letra by remember { mutableStateOf("") }
 
@@ -94,7 +107,7 @@ fun JogoDaCapitalScreen(
                                 .fillMaxSize()
                                 .fillMaxWidth()
                         ) {
-                            Column (horizontalAlignment = Alignment.CenterHorizontally){
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                 Text(
                                     text = "A Primeira letra é $letra",
                                     fontWeight = FontWeight.Bold,
@@ -102,10 +115,14 @@ fun JogoDaCapitalScreen(
                                     fontSize = 25.sp
                                 )
                                 Button(
-                                    onClick = {isDialog = false} ,
-                                    colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.azul4)),
+                                    onClick = { isDialog = false },
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = colorResource(
+                                            id = R.color.azul4
+                                        )
+                                    ),
                                     modifier = Modifier.padding(top = 30.dp)
-                                ){
+                                ) {
                                     Text(
                                         text = "Sair",
                                         fontSize = 25.sp,
@@ -121,7 +138,7 @@ fun JogoDaCapitalScreen(
 
         // Chamada da API
         if (iniciarJogo) {
-            val call = RetrofitFactory().getPaisService().getPaisByContinente("europe")
+            val call = RetrofitFactory().getPaisService().getPaisByContinente(continente)
             call.enqueue(object : Callback<List<Pais>> {
                 override fun onResponse(
                     call: Call<List<Pais>>,
@@ -129,14 +146,28 @@ fun JogoDaCapitalScreen(
                 ) {
                     Log.i("FIAP", "onResponse: ${response.body()}")
 
-                    val resp = response.body()!!
-                    val paisesAleatorios = resp.shuffled().take(3).toMutableList()
-                    val nivel01 = resp.take(10)
+//                    var nivel01 = emptyList<Pais>()
 
-                    jogoDaCapitalScreenViewModel.onListaPaisAleatorioStateChange(
-                        paisesAleatorios
-                    )
-                    jogoDaCapitalScreenViewModel.adicionarPaisAleatorio(nivel01[0])
+                    val resp = response.body()!!
+                    var nivel01 = resp.take(nivel).shuffled()
+
+                    // não é o melhor jeito de longe, pensar em oq fazer aqui para melhorar esssa parte
+//                    if (nivel == 1) {
+//                        nivel01 = resp.take(14).shuffled()
+//                    } else if (nivel == 2) {
+//                        nivel01 = resp.subList(14, 28).shuffled()
+//                    } else if (nivel == 22) {
+//                        nivel01 = resp.take(28).shuffled()
+//                    } else if (nivel == 3) {
+//                        nivel01 = resp.subList(28, 42).shuffled()
+//                    } else if (nivel == 4) {
+//                        nivel01 = resp.subList(42,53).shuffled()
+//                    } else if (nivel == 44) {
+//                        nivel01 = resp
+//                    }
+                    
+                    jogoDaCapitalScreenViewModel.encherPaisesAleatorios(resp, nivel01, proxIndex = 0)
+                    jogoDaCapitalScreenViewModel.adicionarPaisCorreto(nivel01[0])
                     jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
                     jogoDaCapitalScreenViewModel.onNivel01Change(nivel01)
                     jogoDaCapitalScreenViewModel.onListaDeContinenteStateChange(resp)
@@ -149,16 +180,20 @@ fun JogoDaCapitalScreen(
             })
         }
         Column {
-            // Construção do Jogo, percorrendo uma lista de paises
+            // Construção do Jogo, percorrendo uma lista de paises de um continente
             for (i in nivel01.indices) {
                 if (i == indexAtual) {
                     JogoCapital(
                         pais = nivel01[i],
-                        listaPaisAleatoriosState,
-                        nivel01,
-                        listaDeContinente,
-                        navController,
-                        jogoDaCapitalScreenViewModel
+                        opcoesDeEscolha = listaPaisAleatoriosState,
+                        listaDePais = nivel01,
+                        listaDoContinente = listaDeContinente,
+                        navController = navController,
+                        jogoDaCapitalScreenViewModel = jogoDaCapitalScreenViewModel,
+                        desafio = desafio,
+                        continente = continente,
+                        tituloJogo = tituloJogo,
+                        tituloContinente = tituloContinente,
                     )
                 }
             }

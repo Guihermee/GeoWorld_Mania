@@ -28,7 +28,14 @@ import androidx.navigation.NavController
 import br.com.fiap.geoworldmania.R
 
 @Composable
-fun TelaResultadoScreen(navController: NavController, acertos: Int, erros: Int) {
+fun TelaResultadoScreen(
+    navController: NavController,
+    acertos: Int,
+    erros: Int,
+    continente: String,
+    tituloJogo: String,
+    tituloContinente: String
+) {
 
     Box(
         modifier = Modifier
@@ -131,7 +138,7 @@ fun TelaResultadoScreen(navController: NavController, acertos: Int, erros: Int) 
 //                }
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(
-                    onClick = {navController.navigate("opcoesDeNiveis")},
+                    onClick = {navController.navigate("opcoesDeNiveis?continente=${continente}?tituloJogo=${tituloJogo}?tituloContinente=${tituloContinente}")},
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp),

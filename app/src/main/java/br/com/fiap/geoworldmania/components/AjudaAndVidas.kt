@@ -60,7 +60,7 @@ fun Ajuda(onClick: () -> Unit) {
 }
 
 @Composable
-fun Vidas(onClick: () -> Unit) {
+fun Vidas(onClick: () -> Unit, heart01: Boolean, heart02: Boolean, heart03: Boolean) {
     Box {
         Row(
             modifier = Modifier
@@ -69,21 +69,48 @@ fun Vidas(onClick: () -> Unit) {
             horizontalArrangement = Arrangement.End
         ) {
             Row {
-                Icon(
-                    painter = painterResource(id = R.drawable.heart_filled_42),
-                    contentDescription = "Ícone de Coração Cheio",
-                    tint = colorResource(id = R.color.vermelho)
-                )
-                Icon(
-                    painter = painterResource(id = R.drawable.heart_filled_42),
-                    contentDescription = "Ícone de Coração Cheio",
-                    tint = colorResource(id = R.color.vermelho)
-                )
-                Icon(
-                    painter = painterResource(id = R.drawable.heart_filled_42),
-                    contentDescription = "Ícone de Coração Cheio",
-                    tint = colorResource(id = R.color.vermelho),
-                )
+
+                if (heart01) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.heart_filled_42),
+                        contentDescription = "Ícone de Coração Cheio",
+                        tint = colorResource(id = R.color.vermelho)
+                    )
+                } else {
+                    Icon(
+                        painter = painterResource(id = R.drawable.heart_outline_42),
+                        contentDescription = "Ícone de Coração Cheio",
+                        tint = colorResource(id = R.color.vermelho)
+                    )
+                }
+
+                if (heart02) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.heart_filled_42),
+                        contentDescription = "Ícone de Coração Cheio",
+                        tint = colorResource(id = R.color.vermelho)
+                    )
+                } else {
+                    Icon(
+                        painter = painterResource(id = R.drawable.heart_outline_42),
+                        contentDescription = "Ícone de Coração Cheio",
+                        tint = colorResource(id = R.color.vermelho)
+                    )
+                }
+
+                if (heart03) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.heart_filled_42),
+                        contentDescription = "Ícone de Coração Cheio",
+                        tint = colorResource(id = R.color.vermelho)
+                    )
+                } else {
+                    Icon(
+                        painter = painterResource(id = R.drawable.heart_outline_42),
+                        contentDescription = "Ícone de Coração Cheio",
+                        tint = colorResource(id = R.color.vermelho)
+                    )
+                }
 
             }
         }

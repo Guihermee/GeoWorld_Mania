@@ -127,7 +127,7 @@ fun TelaInicial(navController: NavController){
                             .padding(top = 10.dp),
                     )
                 }
-                TiposJogosButton(texto1 = "Capitais do Mundo", imagem = R.drawable.planeta, onClick = {navController.navigate("opcoesDeContinente")},  colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.vermelho)))
+                TiposJogosButton(texto1 = "Capitais do Mundo", imagem = R.drawable.planeta, onClick = {navController.navigate("opcoesDeContinente?tituloJogo=Capitais")},  colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.vermelho)))
                 TiposJogosButton(texto1 = "Bandeiras", imagem = R.drawable.bandeira, onClick = {},  colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.azul_claro)))
                 TiposJogosButton(texto1 = "Países", imagem = R.drawable.paises, onClick = {},  colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.verde_claro)))
             }

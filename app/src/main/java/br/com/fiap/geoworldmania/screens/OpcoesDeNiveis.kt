@@ -28,13 +28,15 @@ import br.com.fiap.geoworldmania.viewModel.JogoDaCapitalScreenViewModel
 
 fun OpcoesDeNiveisScreen(
     navController: NavController,
-    jogoDaCapitalScreenViewModel: JogoDaCapitalScreenViewModel
+    continente: String,
+    tituloJogo: String,
+    tituloContinente: String
 ) {
 
     Box(modifier = Modifier.fillMaxWidth()) {
         Column {
-            Header(textContent = "Capitais - Europa", onClickVoltar = {
-                navController.navigate("opcoesDeContinente")
+            Header(textContent = "${tituloJogo} - ${tituloContinente}", onClickVoltar = {
+                navController.navigate("opcoesDeContinente?tituloJogo=${tituloJogo}")
             })
             Spacer(modifier = Modifier.height(4.dp))
             Text(
@@ -45,11 +47,13 @@ fun OpcoesDeNiveisScreen(
                 color = colorResource(id = R.color.azul5)
             )
 
+
+
             OpcoesEscolhaNivel(
                 texto1 = "Nível 1: 10 Países",
                 imagem = lightbulb_filled_42_white,
                 onClick = {
-                    navController.navigate("jogoDaCapital")
+                    navController.navigate("jogoDaCapital?nivel=10?continente=${continente}?tituloJogo=${tituloJogo}?tituloContinente=${tituloContinente}?tituloNivel=Nível 1?desafio=false")
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.verde_claro))
             )
@@ -57,42 +61,54 @@ fun OpcoesDeNiveisScreen(
             OpcoesEscolhaNivel(
                 texto1 = "Nivel 2: +10 Países",
                 imagem = lightbulb_filled_42_white,
-                onClick = {},
+                onClick = {
+                    navController.navigate("jogoDaCapital?nivel=20?continente=${continente}?tituloJogo=${tituloJogo}?tituloContinente=${tituloContinente}?tituloNivel=Nível 2?desafio=false")
+                },
                 colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.verde_claro))
             )
 
             OpcoesEscolhaNivel(
-                texto1 = "Desafio: 20 Países",
+                texto1 = "Desafio 1: 20 Países",
                 imagem = heart_filled_42_white,
-                onClick = {},
+                onClick = {
+                    navController.navigate("jogoDaCapital?nivel=20?continente=${continente}?tituloJogo=${tituloJogo}?tituloContinente=${tituloContinente}?tituloNivel=Desafio 1?desafio=true")
+                },
                 colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.azul_claro))
             )
 
             OpcoesEscolhaNivel(
                 texto1 = "Nivel 3: 10 Países",
                 imagem = lightbulb_filled_42_white,
-                onClick = {},
+                onClick = {
+                    navController.navigate("jogoDaCapital?nivel=30?continente=${continente}?tituloJogo=${tituloJogo}?tituloContinente=${tituloContinente}?tituloNivel=Nível 3?desafio=false")
+                },
                 colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.verde_claro))
             )
 
             OpcoesEscolhaNivel(
                 texto1 = "Nivel 4: +10 Países",
                 imagem = lightbulb_filled_42_white,
-                onClick = {},
+                onClick = {
+                    navController.navigate("jogoDaCapital?nivel=40?continente=${continente}?tituloJogo=${tituloJogo}?tituloContinente=${tituloContinente}?tituloNivel=Nível 4?desafio=false")
+                },
                 colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.verde_claro))
             )
 
             OpcoesEscolhaNivel(
-                texto1 = "Desafio: 40 Países",
+                texto1 = "Desafio 2: 40 Países",
                 imagem = heart_filled_42_white,
-                onClick = {},
+                onClick = {
+                    navController.navigate("jogoDaCapital?nivel=40?continente=${continente}?tituloJogo=${tituloJogo}?tituloContinente=${tituloContinente}?tituloNivel=Desafio 2?desafio=true")
+                },
                 colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.azul_claro))
             )
 
             OpcoesEscolhaNivel(
                 texto1 = "Desafio Difícil: Todos os países",
                 imagem = heart_filled_42_white,
-                onClick = {},
+                onClick = {
+                    navController.navigate("jogoDaCapital?nivel=53?continente=${continente}?tituloJogo=${tituloJogo}?tituloContinente=${tituloContinente}?tituloNivel=Desafio final?desafio=true")
+                },
                 colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.vermelho))
             )
         }

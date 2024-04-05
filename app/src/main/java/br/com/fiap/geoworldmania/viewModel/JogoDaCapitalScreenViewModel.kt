@@ -28,15 +28,36 @@ class JogoDaCapitalScreenViewModel : ViewModel() {
     private val _iniciarJogo = MutableLiveData<Boolean>()
     val iniciarJogo: LiveData<Boolean> = _iniciarJogo
 
-    fun onListaPaisAleatorioStateChange(novaListaAleatoria: List<Pais>) {
-        _listaPaisAleatorioState.value = novaListaAleatoria
-    }
+    private val _heart01 = MutableLiveData<Boolean>()
+    val heart01: LiveData<Boolean> = _heart01
+
+    private val _heart02 = MutableLiveData<Boolean>()
+    val heart02: LiveData<Boolean> = _heart02
+
+    private val _heart03 = MutableLiveData<Boolean>()
+    val heart03: LiveData<Boolean> = _heart03
+
+//    fun onListaPaisAleatorioStateChange(novaListaAleatoria: List<Pais>) {
+//        _listaPaisAleatorioState.value = novaListaAleatoria
+//    }
 
     fun onIniciarJogoChange(novoBoolean: Boolean) {
         _iniciarJogo.value = novoBoolean
     }
 
-    fun adicionarPaisAleatorio(pais: Pais) {
+    fun onHeart01Change(novoBoolean: Boolean) {
+        _heart01.value = novoBoolean
+    }
+
+    fun onHeart02Change(novoBoolean: Boolean) {
+        _heart02.value = novoBoolean
+    }
+
+    fun onHeart03Change(novoBoolean: Boolean) {
+        _heart03.value = novoBoolean
+    }
+
+    fun adicionarPaisCorreto(pais: Pais) {
         val listaAtual = _listaPaisAleatorioState.value.orEmpty().toMutableList()
         listaAtual.add(pais)
         _listaPaisAleatorioState.value = listaAtual
@@ -48,16 +69,27 @@ class JogoDaCapitalScreenViewModel : ViewModel() {
         _listaPaisAleatorioState.value = paisesAleatorios
     }
 
-    fun apagarPaisesAleatorios(){
+    fun apagarListaPais(){
         _listaPaisAleatorioState.value = emptyList()
     }
 
-    fun encherPaisesAleatorios(listaDeContinente: List<Pais>) {
-        val paisesAleatorios = listaDeContinente.shuffled().take(3).toMutableList()
+    fun encherPaisesAleatorios(listaDeContinente: List<Pais>, listadePais: List<Pais>, proxIndex: Int) {
+
+        var proxIndexSeguro = proxIndex
+
+        if (proxIndex > listadePais.count() - 1)
+            proxIndexSeguro = proxIndex - 1
+
+        //Este nome foi mudado removendo o "de" para ter um nome parecido com a lista recebida do parametro
+        val listaContinente = listaDeContinente.toMutableList()
+        val paisARemover = listadePais[proxIndexSeguro]
+        listaContinente.remove(paisARemover)
+
+        val paisesAleatorios = listaContinente.shuffled().take(3).toMutableList()
         _listaPaisAleatorioState.value = paisesAleatorios
     }
 
-    fun saberQualPaisesAtual(pais: Pais, listaDePais: List<Pais>): Int {
+    fun saberQualProxPais(pais: Pais, listaDePais: List<Pais>): Int {
         val paisesAleatorios = listaDePais.toMutableList()
         val index = paisesAleatorios.indexOf(pais)
         return index + 1
@@ -82,4 +114,10 @@ class JogoDaCapitalScreenViewModel : ViewModel() {
     fun onListaDeContinenteStateChange(novaLista: List<Pais>) {
         _listaDeContineteState.value = novaLista
     }
+
+    fun saberQuantosNiveis(tamanhoDaLista: Int) {
+        // pegar o tamanho da lista dividir de forma que fique varias divisões iguais, se for 50 dividir igualmente por 10 5 vezes
+
+    }
+
 }

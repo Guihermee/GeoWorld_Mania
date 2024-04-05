@@ -34,30 +34,101 @@ class MainActivity : ComponentActivity() {
                         composable(route = "telaInicial") {
                             TelaInicial(navController)
                         }
-                        composable(route = "opcoesDeContinente") {
-                            OpcoesDeContinenteScreen(navController)
-                        }
-                        composable(route = "opcoesDeNiveis") {
-                            OpcoesDeNiveisScreen(navController, JogoDaCapitalScreenViewModel())
-                        }
-                        composable(route = "jogoDaCapital") {
-                            JogoDaCapitalScreen(JogoDaCapitalScreenViewModel(), navController)
+                        composable(route = "opcoesDeContinente?tituloJogo={tituloJogo}") {
+                            val tituloJogo = it.arguments?.getString("tituloJogo")
+                            OpcoesDeContinenteScreen(navController, tituloJogo!!)
                         }
                         composable(
-                            route = "telaResultado?acertos={acertos}?erros={erros}",
+                            route = "opcoesDeNiveis?continente={continente}?tituloJogo={tituloJogo}?tituloContinente={tituloContinente}",
+                            arguments = listOf(
+                                navArgument(name = "continente"){
+                                    defaultValue = ""
+                                },
+                                navArgument(name = "tituloContinente"){
+                                    defaultValue = ""
+                                },
+                                navArgument(name = "tituloJogo"){
+                                    defaultValue = ""
+                                }
+                            )
+                        ) {
+                            val continente = it.arguments?.getString("continente")
+                            val tituloJogo = it.arguments?.getString("tituloJogo")
+                            val tituloContinente = it.arguments?.getString("tituloContinente")
+                            OpcoesDeNiveisScreen(navController, continente!!, tituloJogo!!, tituloContinente!!)
+                        }
+                        composable(
+                            route = "jogoDaCapital?nivel={nivel}?continente={continente}?tituloJogo={tituloJogo}?tituloContinente={tituloContinente}?tituloNivel={tituloNivel}?desafio={desafio}",
+                            arguments = listOf(
+                                navArgument(name = "nivel") {
+                                    defaultValue = 0
+                                },
+                                navArgument(name = "continente") {
+                                    defaultValue = ""
+                                },
+                                navArgument(name = "tituloContinente"){
+                                    defaultValue = ""
+                                },
+                                navArgument(name = "tituloJogo"){
+                                    defaultValue = ""
+                                },
+                                navArgument(name = "tituloNivel"){
+                                    defaultValue = ""
+                                },
+                                navArgument(name = "desafio") {
+                                    defaultValue = false
+                                }
+                            )
+                            ) {
+                            val nivel = it.arguments?.getInt("nivel")
+                            val continente = it.arguments?.getString("continente")
+                            val tituloJogo = it.arguments?.getString("tituloJogo")
+                            val tituloContinente = it.arguments?.getString("tituloContinente")
+                            val tituloNivel = it.arguments?.getString("tituloNivel")
+                            val desafio = it.arguments?.getBoolean("desafio")
+                            JogoDaCapitalScreen(
+                                JogoDaCapitalScreenViewModel(),
+                                navController,
+                                continente!!,
+                                nivel!!,
+                                tituloJogo!!,
+                                tituloContinente!!,
+                                tituloNivel!!,
+                                desafio!!
+                            )
+                        }
+                        composable(
+                            route = "telaResultado?acertos={acertos}?erros={erros}?continente={continente}?tituloJogo={tituloJogo}?tituloContinente={tituloContinente}",
                             arguments = listOf(
                                 navArgument(name = "acertos"){
                                     defaultValue = 0
                                 },
                                 navArgument(name = "erros"){
                                     defaultValue = 0
-                                }
+                                },
+                                navArgument(name = "continente") {
+                                    defaultValue = ""
+                                },
+                                navArgument(name = "tituloContinente"){
+                                    defaultValue = ""
+                                },
+                                navArgument(name = "tituloJogo"){
+                                    defaultValue = ""
+                                },
                             )
                         ) {
+                            val acertos =  it.arguments?.getInt("acertos")!!
+                            val erros = it.arguments?.getInt("erros")!!
+                            val continente = it.arguments?.getString("continente")!!
+                            val tituloJogo = it.arguments?.getString("tituloJogo")!!
+                            val tituloContinente = it.arguments?.getString("tituloContinente")!!
                             TelaResultadoScreen(
                                 navController,
-                                it.arguments?.getInt("acertos")!!,
-                                it.arguments?.getInt("erros")!!
+                                acertos,
+                                erros,
+                                continente,
+                                tituloJogo,
+                                tituloContinente
                             )
                         }
                     }
@@ -66,4 +137,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-// test
