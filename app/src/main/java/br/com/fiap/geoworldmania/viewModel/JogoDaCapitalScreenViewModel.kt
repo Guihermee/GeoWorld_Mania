@@ -4,6 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import br.com.fiap.geoworldmania.model.Pais
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.OutputStreamWriter
+import java.nio.charset.StandardCharsets
 
 class JogoDaCapitalScreenViewModel : ViewModel() {
 
@@ -119,5 +124,7 @@ class JogoDaCapitalScreenViewModel : ViewModel() {
         // pegar o tamanho da lista dividir de forma que fique varias divisões iguais, se for 50 dividir igualmente por 10 5 vezes
 
     }
+
+
 
 }

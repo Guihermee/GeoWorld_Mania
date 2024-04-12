@@ -3,5 +3,7 @@
     <string name="CampoDica">Dicas</string>
     <string name="capital">Capital</string>
     <string name="qual_capital">Qual a capital?</string>
+    <string name="qual_pais">Qual o País?</string>
+    <string name="qual_bandeira">Qual a Bandeira?</string>
     <string name="iniciar_jogo">Inciar Jogo</string>
 </resources>

@@ -1,5 +1,6 @@
 package br.com.fiap.geoworldmania.components
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +18,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -41,44 +43,60 @@ fun JogoCapital(
     desafio: Boolean,
     continente: String,
     tituloJogo: String,
-    tituloContinente: String
+    tituloContinente: String,
+    jogoPais: Boolean,
+    jogoBandeira: Boolean
 ) {
-
+    // Criação das variáveis utilizadas no jogo.
     val opcaoCorreta = pais.capital[0]
+    val opcaoCorretaPais = pais.nome.portugues.common
     val acertos by jogoDaCapitalScreenViewModel.acertos.observeAsState(initial = 0)
     val erros by jogoDaCapitalScreenViewModel.erros.observeAsState(initial = 0)
     val heart01 by jogoDaCapitalScreenViewModel.heart01.observeAsState(initial = true)
     val heart02 by jogoDaCapitalScreenViewModel.heart02.observeAsState(initial = true)
     val heart03 by jogoDaCapitalScreenViewModel.heart03.observeAsState(initial = true)
 
-    if (erros == 1) {
-        jogoDaCapitalScreenViewModel.onHeart03Change(false)
-    } else if (erros == 2) {
-        jogoDaCapitalScreenViewModel.onHeart02Change(false)
-    } else if (erros == 3){
-        jogoDaCapitalScreenViewModel.onHeart01Change(false)
-        navController.navigate("telaResultado?acertos=${acertos}?erros=${erros}?continente=${continente}?tituloJogo=${tituloJogo}?tituloContinente=${tituloContinente}",)
-    }
-
+    // Se for desafio é aplicado uma lógica para "perder" vidas e se errar 3 vezes é movido para tela de Resultado
     if (desafio) {
         Vidas(
             onClick = {}, heart01, heart02, heart03
         )
+        if (erros == 1) {
+            jogoDaCapitalScreenViewModel.onHeart03Change(false)
+        } else if (erros == 2) {
+            jogoDaCapitalScreenViewModel.onHeart02Change(false)
+        } else if (erros == 3) {
+            jogoDaCapitalScreenViewModel.onHeart01Change(false)
+            navController.navigate("telaResultado?acertos=${acertos}?erros=${erros}?continente=${continente}?tituloJogo=${tituloJogo}?tituloContinente=${tituloContinente}?jogoPais=${jogoPais}?jogoBandeira=${jogoBandeira}")
+        }
     }
 
+    // Titulo mostrando o nome do pais ou não (dependende do jogo)
+    if (jogoPais && jogoBandeira) { // Esse é o Jogo da bandeira
 
-    // Nome do País
-    Text(
-        text = pais.nome.portugues.common,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 6.dp),
-        textAlign = TextAlign.Center,
-        fontSize = 24.sp,
-        fontWeight = FontWeight.Bold
-    )
+    } else if (jogoPais && !jogoBandeira) { // Esse é o Jogo do Pais
+        Text(
+            text = pais.capital[0],
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 6.dp),
+            textAlign = TextAlign.Center,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold
+        )
+    } else if (!jogoPais && !jogoBandeira) {// Esse é o Jogo da Capital
+        Text(
+            text = pais.nome.portugues.common,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 6.dp),
+            textAlign = TextAlign.Center,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
 
-    // Imagem do País
+    // Imagem do País TODO Imagens das Cidades dos Paises.
     Column(
         modifier = Modifier.height(250.dp)
     ) {
@@ -87,22 +105,48 @@ fun JogoCapital(
             contentDescription = "Bandeira do Pais",
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 16.dp, end = 16.dp),
+                .padding(start = 16.dp, end = 16.dp)
+                .border(1.dp, color = Color.Black),
             contentScale = ContentScale.Crop
         )
     }
 
     Spacer(modifier = Modifier.height(16.dp))
 
-    Text(
-        text = stringResource(id = R.string.qual_capital),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 16.dp, bottom = 8.dp),
-        textAlign = TextAlign.Start,
-        fontSize = 24.sp,
-        fontWeight = FontWeight.Bold
-    )
+    /*TODO*/
+    // Com base em um dos três jogo possíveis, é escolhido um Texto apropriado (FAZER UM COMPONENTE?)
+    if (jogoPais && jogoBandeira) { // Esse é o Jogo da bandeira
+        Text(
+            text = stringResource(id = R.string.qual_bandeira),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, bottom = 8.dp),
+            textAlign = TextAlign.Start,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold
+        )
+    } else if (jogoPais && !jogoBandeira) { // Esse é o Jogo Pais
+        Text(
+            text = stringResource(id = R.string.qual_pais),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, bottom = 8.dp),
+            textAlign = TextAlign.Start,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold
+        )
+    } else if (!jogoPais && !jogoBandeira) { // Esse é o Jogo Capital
+        Text(
+            text = stringResource(id = R.string.qual_capital),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, bottom = 8.dp),
+            textAlign = TextAlign.Start,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
+
 
     // Declaração das variáveis de estado das cores dos botões
     var corCard00 by remember { mutableIntStateOf(R.color.azul1) }
@@ -110,59 +154,105 @@ fun JogoCapital(
     var corCard02 by remember { mutableIntStateOf(R.color.azul1) }
     var corCard03 by remember { mutableIntStateOf(R.color.azul1) }
 
-    // Essa função verifica se o Usuário acertou e apaga a lista de opções e adiciona 3 aleatorios
+
     fun verificarSeAcertou(it: Pais, listadePais: List<Pais>, proxIndex: Int) {
-        if (it.capital[0] == opcaoCorreta) {
+        if (!jogoPais) {
+            if (it.capital[0] == opcaoCorreta) {
 
-            // Adiciona +1 na variável acertos
-            jogoDaCapitalScreenViewModel.adicionarAcerto()
+                jogoDaCapitalScreenViewModel.adicionarAcerto()
+                jogoDaCapitalScreenViewModel.apagarListaPais()
 
-            /*Se Usuario escolher opção correta a lista opcoesDeEscolha será limpada e
-             preenchida com outros 3 paises aleatorios da API*/
-            jogoDaCapitalScreenViewModel.apagarListaPais()
+                // Essa função recebe o próximo Pais como parâmetro e exclui da listaDoContinente
+                // e adiciona 3 Paises
+                jogoDaCapitalScreenViewModel.encherPaisesAleatorios(
+                    listaDoContinente,
+                    listadePais,
+                    proxIndex
+                )
 
-            // Essa função recebe o próximo Pais como parâmetro e exclui da listaDoContinente
-            // e adiciona 3 Paises
-            jogoDaCapitalScreenViewModel.encherPaisesAleatorios(listaDoContinente, listadePais, proxIndex)
-
+            } else {
+                jogoDaCapitalScreenViewModel.adicionarErro()
+            }
         } else {
-            // Adiciona +1 na variável erros
-            jogoDaCapitalScreenViewModel.adicionarErro()
+            if (it.nome.portugues.common == opcaoCorretaPais) {
+
+                jogoDaCapitalScreenViewModel.adicionarAcerto()
+                jogoDaCapitalScreenViewModel.apagarListaPais()
+
+                // Essa função recebe o próximo Pais como parâmetro e exclui da listaDoContinente
+                // e adiciona 3 Paises
+                jogoDaCapitalScreenViewModel.encherPaisesAleatorios(
+                    listaDoContinente,
+                    listadePais,
+                    proxIndex
+                )
+
+            } else {
+                jogoDaCapitalScreenViewModel.adicionarErro()
+            }
         }
     }
 
-    // Funções que muda as variavel de estado para vermelho
+    // Funções que muda as variavel de estado das opções para vermelho caso não for a opção correta
     fun verifica00(): Int {
-        if (opcoesDeEscolha[0].capital[0] != opcaoCorreta){
-            corCard00 = R.color.vermelho
-            return corCard00
+        if (!jogoPais) {
+            if (opcoesDeEscolha[0].capital[0] != opcaoCorreta) {
+                corCard00 = R.color.vermelho
+                return corCard00
+            }
+        } else {
+            if (opcoesDeEscolha[0].nome.portugues.common != opcaoCorretaPais) {
+                corCard00 = R.color.vermelho
+                return corCard00
+            }
         }
 
         return R.color.azul1
     }
 
     fun verifica01(): Int {
-        if (opcoesDeEscolha[1].capital[0] != opcaoCorreta){
-            corCard01 = R.color.vermelho
-            return corCard01
+        if (!jogoPais) {
+            if (opcoesDeEscolha[1].capital[0] != opcaoCorreta) {
+                corCard01 = R.color.vermelho
+                return corCard01
+            }
+        } else {
+            if (opcoesDeEscolha[1].nome.portugues.common != opcaoCorretaPais) {
+                corCard01 = R.color.vermelho
+                return corCard01
+            }
         }
 
         return R.color.azul1
     }
 
     fun verifica02(): Int {
-        if (opcoesDeEscolha[2].capital[0] != opcaoCorreta){
-            corCard02 = R.color.vermelho
-            return corCard02
+        if (!jogoPais) {
+            if (opcoesDeEscolha[2].capital[0] != opcaoCorreta) {
+                corCard02 = R.color.vermelho
+                return corCard02
+            }
+        } else {
+            if (opcoesDeEscolha[2].nome.portugues.common != opcaoCorretaPais) {
+                corCard02 = R.color.vermelho
+                return corCard02
+            }
         }
 
         return R.color.azul1
     }
 
     fun verifica03(): Int {
-        if (opcoesDeEscolha[3].capital[0] != opcaoCorreta){
-            corCard03 = R.color.vermelho
-            return corCard03
+        if (!jogoPais) {
+            if (opcoesDeEscolha[3].capital[0] != opcaoCorreta) {
+                corCard03 = R.color.vermelho
+                return corCard03
+            }
+        } else {
+            if (opcoesDeEscolha[3].nome.portugues.common != opcaoCorretaPais) {
+                corCard03 = R.color.vermelho
+                return corCard03
+            }
         }
 
         return R.color.azul1
@@ -172,24 +262,23 @@ fun JogoCapital(
     fun botao(pais: Pais, corCard: Int) {
         Button(
             onClick = {
-
-                //Variavel para saber qual é o index do proximo pais do Nivel.
-                var proxIndex =
-                    jogoDaCapitalScreenViewModel.saberQualProxPais(pais, listaDePais)
-
+                var proxIndex = jogoDaCapitalScreenViewModel.saberQualProxPais(pais, listaDePais)
 
                 // Aqui é verificado se o botão clicaco (pais) é igual o botão 1,2,3,4 e
-                // mudando a cor do botão correspondente
+                // mudando a cor do botão clicado
                 when (pais) {
                     opcoesDeEscolha[0] -> {
                         verifica00()
                     }
+
                     opcoesDeEscolha[1] -> {
                         verifica01()
                     }
+
                     opcoesDeEscolha[2] -> {
                         verifica02()
                     }
+
                     opcoesDeEscolha[3] -> {
                         verifica03()
                     }
@@ -198,24 +287,45 @@ fun JogoCapital(
                 verificarSeAcertou(pais, listaDePais, proxIndex)
 
                 // Continua a verificar se o usário clicou na opção correta e adiciona o próx pais na lista totalizando 4 paises
-                if(pais.capital[0] == opcaoCorreta) {
+                if (!jogoPais) {
+                    if (pais.capital[0] == opcaoCorreta) {
 
-                    // Verificação se acabou a lista para ir pra tela de resultado
-                    if (proxIndex + 1 > listaDePais.count()) {
-                        proxIndex -= 1
-                        jogoDaCapitalScreenViewModel.adicionarPaisCorreto(listaDePais[proxIndex])
-                        return@Button navController.navigate("telaResultado?acertos=${acertos}?erros=${erros}?continente=${continente}?tituloJogo=${tituloJogo}?tituloContinente=${tituloContinente}")
+                        // Verificação se acabou a lista para ir pra tela de resultado
+                        if (proxIndex + 1 > listaDePais.count()) {
+                            proxIndex -= 1
+                            jogoDaCapitalScreenViewModel.adicionarPaisCorreto(listaDePais[proxIndex])
+                            return@Button navController.navigate("telaResultado?acertos=${acertos}?erros=${erros}?continente=${continente}?tituloJogo=${tituloJogo}?tituloContinente=${tituloContinente}?jogoPais=${jogoPais}?jogoBandeira=${jogoBandeira}")
+                        }
+
+                        // Se não for pra tela de resultado aqui é adicionado o Proximo País na lista e
+                        // embaralha ela para a próxima pergunta
+                        if (proxIndex <= listaDePais.count()) {
+                            jogoDaCapitalScreenViewModel.adicionarPaisCorreto(listaDePais[proxIndex])
+                            jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
+                        }
+
+                        jogoDaCapitalScreenViewModel.proximoPais()// Adiciona +1 no i do FOR do jogoDaCapitalScreen
                     }
+                } else {
+                    if (pais.nome.portugues.common == opcaoCorretaPais) {
 
-                    // Se não for pra tela de resultado aqui é adicionado o Proximo País na lista e
-                    // embaralha ela para a próxima pergunta
-                    if (proxIndex <= listaDePais.count()) {
-                        jogoDaCapitalScreenViewModel.adicionarPaisCorreto(listaDePais[proxIndex])
-                        jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
+                        // Verificação se acabou a lista para ir pra tela de resultado
+                        if (proxIndex + 1 > listaDePais.count()) {
+                            proxIndex -= 1
+                            jogoDaCapitalScreenViewModel.adicionarPaisCorreto(listaDePais[proxIndex])
+                            return@Button navController.navigate("telaResultado?acertos=${acertos}?erros=${erros}?continente=${continente}?tituloJogo=${tituloJogo}?tituloContinente=${tituloContinente}?jogoPais=${jogoPais}?jogoBandeira=${jogoBandeira}")
+                        }
+
+                        // Se não for pra tela de resultado aqui é adicionado o Proximo País na lista e
+                        // embaralha ela para a próxima pergunta
+                        if (proxIndex <= listaDePais.count()) {
+                            jogoDaCapitalScreenViewModel.adicionarPaisCorreto(listaDePais[proxIndex])
+                            jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
+                        }
+
+                        // Adiciona +1 no i do FOR do jogoDaCapitalScreen
+                        jogoDaCapitalScreenViewModel.proximoPais()
                     }
-
-                    // Adiciona +1 no i do FOR do jogoDaCapitalScreen
-                    jogoDaCapitalScreenViewModel.proximoPais()
                 }
             },
             modifier = Modifier
@@ -224,10 +334,17 @@ fun JogoCapital(
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = corCard))
         ) {
-            Text(
-                text = pais.capital[0],
-                fontSize = 32.sp
-            )
+            if (!jogoPais) { // Se for o jogo da Capital
+                Text(
+                    text = pais.capital[0],
+                    fontSize = 32.sp
+                )
+            } else {
+                Text( // Se for o Jogo Pais ou
+                    text = pais.nome.portugues.common,
+                    fontSize = 32.sp
+                )
+            }
         }
         Spacer(modifier = Modifier.height(6.dp))
     }

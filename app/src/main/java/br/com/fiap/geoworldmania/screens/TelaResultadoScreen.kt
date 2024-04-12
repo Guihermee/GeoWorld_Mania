@@ -34,7 +34,9 @@ fun TelaResultadoScreen(
     erros: Int,
     continente: String,
     tituloJogo: String,
-    tituloContinente: String
+    tituloContinente: String,
+    jogoPais: Boolean,
+    jogoBandeira: Boolean
 ) {
 
     Box(
@@ -55,7 +57,7 @@ fun TelaResultadoScreen(
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "Parabéns!!!",
+                    text = "Parabéns!",
                     fontSize = 60.sp,
                     fontWeight = FontWeight.ExtraBold,
                     color = colorResource(id = R.color.azul5)
@@ -138,7 +140,7 @@ fun TelaResultadoScreen(
 //                }
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(
-                    onClick = {navController.navigate("opcoesDeNiveis?continente=${continente}?tituloJogo=${tituloJogo}?tituloContinente=${tituloContinente}")},
+                    onClick = { navController.navigate("opcoesDeNiveis?continente=${continente}?tituloJogo=${tituloJogo}?tituloContinente=${tituloContinente}?jogoPais=${jogoPais}?jogoBandeira=${jogoBandeira}") },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp),

@@ -10,4 +10,6 @@ interface PaisService {
     @GET("region/{continente}")
     fun getPaisByContinente(@Path("continente") continente: String): Call<List<Pais>>
 
+    @GET("{todos}/")
+    fun getAll(@Path("todos") todos: String): Call<List<Pais>>
 }

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,19 +38,21 @@ fun FooterTelaInicial() {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.home_42),
+                        contentDescription = "Icone de Menu",
+                        tint = colorResource(id = R.color.azul5)
+                    )
+                }
+            }
+            IconButton(onClick = { /*TODO*/ }) {
                 Icon(
-                    painter = painterResource(id = R.drawable.home_42),
-                    contentDescription = "Icone de Menu",
-                    modifier = Modifier.padding(start = 16.dp),
-                    tint = colorResource(id = R.color.azul5)
+                    painter = painterResource(id = R.drawable.settings_42),
+                    contentDescription = "Ícone de configurações",
+                    tint = colorResource (id = R.color.azul5)
                 )
             }
-            Icon(
-                painter = painterResource(id = R.drawable.settings_42),
-                contentDescription = "Ícone de configurações",
-                modifier = Modifier.padding(end = 16.dp),
-                tint = colorResource (id = R.color.azul5)
-            )
         }
     }
 }

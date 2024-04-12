@@ -1,8 +1,6 @@
 package br.com.fiap.geoworldmania.screens
 
 
-import android.util.Log
-import androidx.collection.emptyLongSet
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,31 +34,31 @@ import br.com.fiap.geoworldmania.R
 import br.com.fiap.geoworldmania.components.Ajuda
 import br.com.fiap.geoworldmania.components.Header
 import br.com.fiap.geoworldmania.components.JogoCapital
-import br.com.fiap.geoworldmania.components.Vidas
-import br.com.fiap.geoworldmania.model.Pais
-import br.com.fiap.geoworldmania.service.RetrofitFactory
+import br.com.fiap.geoworldmania.repository.getAllPaises
+import br.com.fiap.geoworldmania.repository.getPaisByContinente
 import br.com.fiap.geoworldmania.viewModel.JogoDaCapitalScreenViewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 @Composable
 fun JogoDaCapitalScreen(
     jogoDaCapitalScreenViewModel: JogoDaCapitalScreenViewModel,
     navController: NavController,
     continente: String,
-    nivel: Int,
+    indexNivelComeca: Int,
+    indexNivelTermina: Int,
     tituloJogo: String,
     tituloContinente: String,
     tituloNivel: String,
-    desafio: Boolean
+    desafio: Boolean,
+    todos: Boolean,
+    jogoPais: Boolean,
+    jogoBandeira: Boolean
 ) {
     Column {
 
-        // Definição e inicialização das variáveis
+        // Definição e inicialização das variáveis de estado utilizadas para iniciar o jogo
         val listaPaisAleatoriosState by jogoDaCapitalScreenViewModel
             .listaPaisAleatorioState.observeAsState(initial = listOf())
-        val nivel01 by jogoDaCapitalScreenViewModel.nivel01.observeAsState(initial = listOf())
+        val nivelAtual by jogoDaCapitalScreenViewModel.nivel01.observeAsState(initial = listOf())
         val indexAtual by jogoDaCapitalScreenViewModel.indexAtual.observeAsState(initial = 0)
         val listaDeContinente by jogoDaCapitalScreenViewModel.listaDeContinente.observeAsState(
             initial = listOf()
@@ -68,9 +66,10 @@ fun JogoDaCapitalScreen(
         val iniciarJogo by jogoDaCapitalScreenViewModel.iniciarJogo.observeAsState(initial = true)
         var isDialog by remember { mutableStateOf(false) }
 
+        // Chamada do componente Header
         Header(
             textContent = "$tituloJogo - $tituloContinente - $tituloNivel",
-            onClickVoltar = { navController.navigate("opcoesDeNiveis?continente=${continente}?tituloJogo=${tituloJogo}?tituloContinente=${tituloContinente}") }
+            onClickVoltar = { navController.navigate("opcoesDeNiveis?continente=${continente}?tituloJogo=${tituloJogo}?tituloContinente=${tituloContinente}?jogoPais=${jogoPais}?jogoBandeira=${jogoBandeira}") }
         )
 
         // Verifica se é um desafio (Desafios tem vida e não tem dicas, caso ao contrario só dicas)
@@ -78,15 +77,15 @@ fun JogoDaCapitalScreen(
             Ajuda(onClick = { isDialog = true })
         }
 
-
-        // Botão de Dica
+        // Botão de Dica TODO Dicas para os jogos Bandeira/Pais
         if (isDialog) {
             Dialog(onDismissRequest = { isDialog = false }, DialogProperties()) {
                 var letra by remember { mutableStateOf("") }
 
-                for (i in nivel01.indices) {
+                // Recuperação da letra da Capital
+                for (i in nivelAtual.indices) {
                     if (i == indexAtual) {
-                        letra = nivel01[i].capital[0].first().toString()
+                        letra = nivelAtual[i].capital[0].first().toString()
                     }
                 }
 
@@ -136,64 +135,50 @@ fun JogoDaCapitalScreen(
             }
         }
 
-        // Chamada da API
-        if (iniciarJogo) {
-            val call = RetrofitFactory().getPaisService().getPaisByContinente(continente)
-            call.enqueue(object : Callback<List<Pais>> {
-                override fun onResponse(
-                    call: Call<List<Pais>>,
-                    response: Response<List<Pais>>
-                ) {
-                    Log.i("FIAP", "onResponse: ${response.body()}")
+        // Preenchendo as Listas com os Paises necessários mas antes se verifica se é todos, pois a função muda.
+        if (iniciarJogo && continente != "all") {
+            val resp = getPaisByContinente(continente)
+            val nivelAtual = resp.subList(indexNivelComeca, indexNivelTermina).shuffled()
 
-//                    var nivel01 = emptyList<Pais>()
 
-                    val resp = response.body()!!
-                    var nivel01 = resp.take(nivel).shuffled()
+            jogoDaCapitalScreenViewModel.encherPaisesAleatorios(resp, nivelAtual, proxIndex = 0)
+            jogoDaCapitalScreenViewModel.adicionarPaisCorreto(nivelAtual[0])
+            jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
+            jogoDaCapitalScreenViewModel.onNivel01Change(nivelAtual)
+            jogoDaCapitalScreenViewModel.onListaDeContinenteStateChange(resp)
+            jogoDaCapitalScreenViewModel.onIniciarJogoChange(false)
 
-                    // não é o melhor jeito de longe, pensar em oq fazer aqui para melhorar esssa parte
-//                    if (nivel == 1) {
-//                        nivel01 = resp.take(14).shuffled()
-//                    } else if (nivel == 2) {
-//                        nivel01 = resp.subList(14, 28).shuffled()
-//                    } else if (nivel == 22) {
-//                        nivel01 = resp.take(28).shuffled()
-//                    } else if (nivel == 3) {
-//                        nivel01 = resp.subList(28, 42).shuffled()
-//                    } else if (nivel == 4) {
-//                        nivel01 = resp.subList(42,53).shuffled()
-//                    } else if (nivel == 44) {
-//                        nivel01 = resp
-//                    }
-                    
-                    jogoDaCapitalScreenViewModel.encherPaisesAleatorios(resp, nivel01, proxIndex = 0)
-                    jogoDaCapitalScreenViewModel.adicionarPaisCorreto(nivel01[0])
-                    jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
-                    jogoDaCapitalScreenViewModel.onNivel01Change(nivel01)
-                    jogoDaCapitalScreenViewModel.onListaDeContinenteStateChange(resp)
-                    jogoDaCapitalScreenViewModel.onIniciarJogoChange(false)
-                }
-
-                override fun onFailure(call: Call<List<Pais>>, t: Throwable) {
-                    Log.i("FIAP", "onResponse: ${t.message}")
-                }
-            })
         }
+        if (iniciarJogo && todos) {
+            val resp =
+                getAllPaises() // Tudo igual o IF de cima, mas com uma função que retorna todos os Paises
+            val nivelAtual = resp.subList(indexNivelComeca, indexNivelTermina).shuffled()
+
+            jogoDaCapitalScreenViewModel.encherPaisesAleatorios(resp, nivelAtual, proxIndex = 0)
+            jogoDaCapitalScreenViewModel.adicionarPaisCorreto(nivelAtual[0])
+            jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
+            jogoDaCapitalScreenViewModel.onNivel01Change(nivelAtual)
+            jogoDaCapitalScreenViewModel.onListaDeContinenteStateChange(resp)
+            jogoDaCapitalScreenViewModel.onIniciarJogoChange(false)
+        }
+
         Column {
             // Construção do Jogo, percorrendo uma lista de paises de um continente
-            for (i in nivel01.indices) {
+            for (i in nivelAtual.indices) {
                 if (i == indexAtual) {
-                    JogoCapital(
-                        pais = nivel01[i],
-                        opcoesDeEscolha = listaPaisAleatoriosState,
-                        listaDePais = nivel01,
-                        listaDoContinente = listaDeContinente,
+                    JogoCapital( // Componente que Cria o jogo e manda as Info
+                        pais = nivelAtual[i], // Lista com o Pais sendo utilizado pelo FOR
+                        opcoesDeEscolha = listaPaisAleatoriosState, // Lista com 3 aleatorios e um Correto
+                        listaDePais = nivelAtual, // Lista com todos paises do Nível atual
+                        listaDoContinente = listaDeContinente, // Todos Paises do Continente
                         navController = navController,
                         jogoDaCapitalScreenViewModel = jogoDaCapitalScreenViewModel,
-                        desafio = desafio,
-                        continente = continente,
-                        tituloJogo = tituloJogo,
-                        tituloContinente = tituloContinente,
+                        desafio = desafio, // Boolean para saber se é um desafio ou não
+                        continente = continente, // String do nome do continente (preenchimento do header)
+                        tituloJogo = tituloJogo,  // String do titulo do jogo Atual (preenchimento do header)
+                        tituloContinente = tituloContinente,  // String do nome do Continente Atual
+                        jogoPais = jogoPais, // Boolean para saber se é o Jogo de adivinhar o País
+                        jogoBandeira = jogoBandeira // Boolean para saber se é o jogo de Adivinhar Bandeira
                     )
                 }
             }

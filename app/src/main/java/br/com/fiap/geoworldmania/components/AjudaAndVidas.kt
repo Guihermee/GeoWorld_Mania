@@ -26,8 +26,7 @@ import br.com.fiap.geoworldmania.R
 fun Ajuda(onClick: () -> Unit) {
     Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(end = 16.dp),
+            .fillMaxWidth(),
         horizontalArrangement = Arrangement.End
     ) {
         Button(

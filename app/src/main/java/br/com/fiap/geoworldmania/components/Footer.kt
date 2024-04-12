@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,10 +22,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import br.com.fiap.geoworldmania.R
 
 @Composable
-fun Footer() {
+fun Footer(navController: NavController) {
 
     Box(
         contentAlignment = Alignment.BottomStart,
@@ -42,12 +44,13 @@ fun Footer() {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.home_42),
-                    contentDescription = "Icone de Menu",
-                    modifier = Modifier.padding(start = 16.dp),
-                    tint = colorResource(id = R.color.azul5)
-                )
+                IconButton(onClick = { navController.navigate("telaInicial") }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.home_42),
+                        contentDescription = "Icone de Menu",
+                        tint = colorResource(id = R.color.azul5)
+                    )
+                }
             }
             Box(
                 contentAlignment = Alignment.Center,
@@ -55,18 +58,21 @@ fun Footer() {
                     .size(40.dp, 40.dp)
                     .clip(shape = CircleShape)
             ){
-                Image(
-                    painter = painterResource(id = R.drawable.ana),
-                    contentDescription = "Conta logada",
-                    contentScale = ContentScale.Crop
+                IconButton(onClick = { /*TODO*/ }) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ana),
+                        contentDescription = "Conta logada",
+                        contentScale = ContentScale.Crop
+                    )
+                }
+            }
+            IconButton(onClick = { /*TODO BOTÃO DOS SETTINGS*/ }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.settings_42),
+                    contentDescription = "Ícone de configurações",
+                    tint = colorResource (id = R.color.azul5)
                 )
             }
-            Icon(
-                painter = painterResource(id = R.drawable.settings_42),
-                contentDescription = "Ícone de configurações",
-                modifier = Modifier.padding(end = 16.dp),
-                tint = colorResource (id = R.color.azul5)
-            )
         }
     }
 }
