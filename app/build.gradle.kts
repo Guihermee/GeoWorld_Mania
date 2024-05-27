@@ -4,6 +4,7 @@ plugins {
 
     // Puglin para o ROOM/kapt
     id ("kotlin-kapt")
+//    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -44,6 +45,7 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
+//        kotlinCompilerExtensionVersion = "1.5.14"
     }
     packaging {
         resources {
@@ -88,6 +90,24 @@ dependencies {
 
     // Dependência do LiveData
     implementation("androidx.compose.runtime:runtime-livedata:1.6.3")
+
+    // Dependência do CoroutineScope
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
+
+//    // SpashScreen API
+//    implementation("androidx.core:core-splashscreen:1.2.0-alpha01")
+//
+//    // Pager
+////    implementation("androidx.compose.foundation.pager:1.6.7")
+//    implementation("androidx.compose.foundation:foundation:1.6.7")
+//
+//    // DataStore
+//    implementation("androidx.datastore:datastore-preferences:1.1.1")
+//
+//    // Dagger
+//    implementation("com.google.dagger:hilt-android:2.44")
+//    kapt("com.google.dagger:hilt-android-compiler:2.44")
+
 
 }
 

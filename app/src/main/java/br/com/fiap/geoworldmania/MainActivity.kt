@@ -3,35 +3,41 @@ package br.com.fiap.geoworldmania
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import br.com.fiap.geoworldmania.screens.ConsultaBandeiraScreen
 import br.com.fiap.geoworldmania.screens.ConsultaCapitaisScreen
 import br.com.fiap.geoworldmania.screens.JogoDaCapitalScreen
 import br.com.fiap.geoworldmania.screens.OpcoesDeContinenteScreen
 import br.com.fiap.geoworldmania.screens.OpcoesDeNiveisScreen
+import br.com.fiap.geoworldmania.screens.PerfilScreen
 import br.com.fiap.geoworldmania.screens.TelaInicial
 import br.com.fiap.geoworldmania.screens.TelaResultadoScreen
 import br.com.fiap.geoworldmania.ui.theme.GeoWorldManiaTheme
 import br.com.fiap.geoworldmania.viewModel.ConsultaCapitaisViewModel
 import br.com.fiap.geoworldmania.viewModel.JogoDaCapitalScreenViewModel
+import br.com.fiap.geoworldmania.viewModel.PerfilViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            GeoWorldManiaTheme {
+            GeoWorldManiaTheme(false, false) {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
+
                     NavHost(navController = navController, startDestination = "telaInicial") {
                         composable(route = "telaInicial") {
                             TelaInicial(navController)
@@ -95,7 +101,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable(
-                            route = "jogoDaCapital?indexNivelComeca={indexNivelComeca}?indexNivelTermina={indexNivelTermina}?continente={continente}?tituloJogo={tituloJogo}?tituloContinente={tituloContinente}?tituloNivel={tituloNivel}?desafio={desafio}?todos={todos}?jogoPais={jogoPais}?jogoBandeira={jogoBandeira}",
+                            route = "jogoDaCapital?indexNivelComeca={indexNivelComeca}?indexNivelTermina={indexNivelTermina}?continente={continente}?tituloJogo={tituloJogo}?tituloContinente={tituloContinente}?tituloNivel={tituloNivel}?desafio={desafio}?todos={todos}?jogoPais={jogoPais}?jogoBandeira={jogoBandeira}?continuaOndeParou={continuaOndeParou}",
                             arguments = listOf(
                                 navArgument(name = "indexNivelComeca") {
                                     defaultValue = 0
@@ -126,6 +132,9 @@ class MainActivity : ComponentActivity() {
                                 },
                                 navArgument(name = "jogoBandeira") {
                                     defaultValue = false
+                                },
+                                navArgument(name = "continuaOndeParou") {
+                                    defaultValue = false
                                 }
                             )
                         ) {
@@ -139,8 +148,10 @@ class MainActivity : ComponentActivity() {
                             val todos = it.arguments?.getBoolean("todos")!!
                             val jogoPais = it.arguments?.getBoolean("jogoPais")!!
                             val jogoBandeira = it.arguments?.getBoolean("jogoBandeira")!!
+                            val continuaOndeParou = it.arguments?.getBoolean("continuaOndeParou")!!
                             JogoDaCapitalScreen(
                                 JogoDaCapitalScreenViewModel(),
+                                PerfilViewModel(),
                                 navController,
                                 continente,
                                 indexNivelComeca,
@@ -151,7 +162,8 @@ class MainActivity : ComponentActivity() {
                                 desafio,
                                 todos,
                                 jogoPais,
-                                jogoBandeira
+                                jogoBandeira,
+                                continuaOndeParou
                             )
                         }
                         composable(
@@ -209,9 +221,29 @@ class MainActivity : ComponentActivity() {
                             val tituloJogo = it.arguments?.getString("tituloJogo")!!
                             ConsultaCapitaisScreen(
                                 navController = navController,
-                                ConsultaCapitaisViewModel = ConsultaCapitaisViewModel(),
+                                consultaCapitaisViewModel = ConsultaCapitaisViewModel(),
                                 tituloJogo = tituloJogo
                             )
+                        }
+                        composable(
+                            route = "consultaBandeirasScreen?tituloJogo={tituloJogo}",
+                            arguments = listOf(
+                                navArgument(name = "tituloJogo") {
+                                    defaultValue = ""
+                                }
+                            )
+                        ) {
+                            val tituloJogo = it.arguments?.getString("tituloJogo")!!
+                            ConsultaBandeiraScreen(
+                                navController = navController,
+                                consultaCapitaisViewModel = ConsultaCapitaisViewModel(),
+                                tituloJogo = tituloJogo
+                            )
+                        }
+                        composable(
+                            route = "PerfilScreen"
+                        ) {
+                            PerfilScreen(navController, PerfilViewModel())
                         }
                     }
                 }

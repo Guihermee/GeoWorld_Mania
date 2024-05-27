@@ -13,12 +13,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.com.fiap.geoworldmania.R
+import br.com.fiap.geoworldmania.R.drawable.co
 import br.com.fiap.geoworldmania.R.drawable.heart_filled_42_white
 import br.com.fiap.geoworldmania.R.drawable.lightbulb_filled_42_white
 import br.com.fiap.geoworldmania.components.Footer
@@ -29,7 +31,6 @@ import br.com.fiap.geoworldmania.repository.getAllNiveis
 import br.com.fiap.geoworldmania.viewModel.JogoDaCapitalScreenViewModel
 
 @Composable
-
 fun OpcoesDeNiveisScreen(
     navController: NavController,
     continente: String,
@@ -38,6 +39,8 @@ fun OpcoesDeNiveisScreen(
     jogoPais: Boolean,
     jogoBandeira: Boolean
 ) {
+    val context = LocalContext.current
+
     Box(modifier = Modifier.fillMaxWidth()) {
         Column {
 
@@ -67,7 +70,8 @@ fun OpcoesDeNiveisScreen(
                         tituloJogo = tituloJogo,
                         tituloContinente = tituloContinente,
                         jogoPais = jogoPais,
-                        jogoBandeira = jogoBandeira
+                        jogoBandeira = jogoBandeira,
+                        context = context
                     )
                 ) {
                     OpcoesEscolhaNivelTest(it) // Aplicando o componente para os Níveis disponíveis

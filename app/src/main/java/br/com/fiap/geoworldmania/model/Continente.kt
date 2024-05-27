@@ -4,6 +4,7 @@ data class Continente(
     val texto: String = "",
     val imagem: Int = 0,
     val onClick: () -> Unit,
+    val nivelDoUsuario: Int,
     val qtdNivel: Int = 0,
     val cor: Int = 0
 )

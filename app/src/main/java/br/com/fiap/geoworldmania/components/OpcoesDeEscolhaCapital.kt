@@ -56,7 +56,7 @@ fun OpcoesEscolhaCapital(continente: Continente) { // Continente é uma DataClas
                )
                Spacer(modifier = Modifier.height(10.dp))
                Text(
-                   text = "Níveis concluidos 0/${continente.qtdNivel}", // TODO Níveis concluidos
+                   text = "Níveis concluidos ${continente.nivelDoUsuario}/${continente.qtdNivel}", // TODO Níveis concluidos
                    fontWeight = FontWeight.Normal,
                    color = Color.White,
                    fontSize = 12.sp

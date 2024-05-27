@@ -263,12 +263,13 @@ fun getPaisByContinente(continente: String): List<Pais> {
     }
 }
 
-fun getPaisByCountry(continente: String): List<Pais> {
+fun getPaisByCountryContinente(continente: String): List<Pais> {
     return getAllPaises().filter {
         it.nome.portugues.common.startsWith(continente, ignoreCase = true)
+//        it.regiao.startsWith(continente, ignoreCase = true)
     }
 }
 
 fun getAllContinentesString(): List<String> {
-return listOf("África", "America do norte e Central", "America do Sul", "Ásia", "Europa", "Oceania")
+return listOf("Africa", "America do Norte e Central", "America do Sul", "Asia", "Europa", "Oceania")
 }

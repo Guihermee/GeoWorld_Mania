@@ -120,11 +120,4 @@ class JogoDaCapitalScreenViewModel : ViewModel() {
         _listaDeContineteState.value = novaLista
     }
 
-    fun saberQuantosNiveis(tamanhoDaLista: Int) {
-        // pegar o tamanho da lista dividir de forma que fique varias divisões iguais, se for 50 dividir igualmente por 10 5 vezes
-
-    }
-
-
-
 }

@@ -33,7 +33,7 @@ fun TiposJogosButton(texto1: String, imagem: Int, colors: ButtonColors, onClick:
             .padding(horizontal = 8.dp)
             .height(75.dp),
         shape = RoundedCornerShape(4.dp),
-        colors = colors,
+        colors = colors
     ) {
         Row(
             horizontalArrangement = Arrangement.Absolute.SpaceBetween,
@@ -49,7 +49,7 @@ fun TiposJogosButton(texto1: String, imagem: Int, colors: ButtonColors, onClick:
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
-                    text = "Níveis concluídos 0/10",
+                    text = "Níveis concluídos 0/33",
                     fontWeight = FontWeight.Normal,
                     color = Color.White,
                     fontSize = 12.sp

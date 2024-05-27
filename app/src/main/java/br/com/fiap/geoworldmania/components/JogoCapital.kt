@@ -20,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -28,8 +29,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.com.fiap.geoworldmania.R
+import br.com.fiap.geoworldmania.model.ContinuaDeOndeParou
 import br.com.fiap.geoworldmania.model.Pais
+import br.com.fiap.geoworldmania.repository.ContinuarDeOndeParouRepository
 import br.com.fiap.geoworldmania.viewModel.JogoDaCapitalScreenViewModel
+import br.com.fiap.geoworldmania.viewModel.PerfilViewModel
 import coil.compose.AsyncImage
 
 @Composable
@@ -40,12 +44,15 @@ fun JogoCapital(
     listaDoContinente: List<Pais>,
     navController: NavController,
     jogoDaCapitalScreenViewModel: JogoDaCapitalScreenViewModel,
+    perfilViewModel: PerfilViewModel,
     desafio: Boolean,
     continente: String,
     tituloJogo: String,
     tituloContinente: String,
+    tituloNivel: String,
     jogoPais: Boolean,
-    jogoBandeira: Boolean
+    jogoBandeira: Boolean,
+    continuaDeOndeParou: Boolean
 ) {
     // Criação das variáveis utilizadas no jogo.
     val opcaoCorreta = pais.capital[0]
@@ -55,6 +62,24 @@ fun JogoCapital(
     val heart01 by jogoDaCapitalScreenViewModel.heart01.observeAsState(initial = true)
     val heart02 by jogoDaCapitalScreenViewModel.heart02.observeAsState(initial = true)
     val heart03 by jogoDaCapitalScreenViewModel.heart03.observeAsState(initial = true)
+    val context = LocalContext.current
+
+    // Atualizando o db do Continua se o Usuario sair no meio do jogo ele consegue voltar de onde parou pelo botão na tela inicial
+    perfilViewModel.atualizarDbContinuaDeOndeParou(
+        context = context,
+        listaDePais = listaDePais,
+        listaDoContinente = listaDoContinente,
+        desafio = desafio,
+        continente = continente,
+        tituloJogo = tituloJogo,
+        tituloContinente = tituloContinente,
+        tituloNivel = tituloNivel,
+        jogoPais = jogoPais,
+        jogoBandeira = jogoBandeira,
+        erros = erros,
+        acertos = acertos,
+        todos = continente == "all"
+    )
 
     // Se for desafio é aplicado uma lógica para "perder" vidas e se errar 3 vezes é movido para tela de Resultado
     if (desafio) {
@@ -159,35 +184,50 @@ fun JogoCapital(
         if (!jogoPais) {
             if (it.capital[0] == opcaoCorreta) {
 
+                perfilViewModel.addAcertoDbContinuaDeOndeParou(context)
+                perfilViewModel.addAcertoInDb(context)
                 jogoDaCapitalScreenViewModel.adicionarAcerto()
-                jogoDaCapitalScreenViewModel.apagarListaPais()
 
-                // Essa função recebe o próximo Pais como parâmetro e exclui da listaDoContinente
-                // e adiciona 3 Paises
-                jogoDaCapitalScreenViewModel.encherPaisesAleatorios(
-                    listaDoContinente,
-                    listadePais,
-                    proxIndex
-                )
+
+
+                if (!continuaDeOndeParou){
+                    jogoDaCapitalScreenViewModel.apagarListaPais()
+                    // Essa função recebe o próximo Pais como parâmetro e exclui da listaDoContinente
+                    // e adiciona 3 Paises
+                    jogoDaCapitalScreenViewModel.encherPaisesAleatorios(
+                        listaDoContinente,
+                        listadePais,
+                        proxIndex
+                    )
+                }
+
 
             } else {
+                perfilViewModel.addErroDbContinuaDeOndeParou(context)
+                perfilViewModel.addErroInDb(context)
                 jogoDaCapitalScreenViewModel.adicionarErro()
             }
         } else {
             if (it.nome.portugues.common == opcaoCorretaPais) {
 
+                perfilViewModel.addAcertoDbContinuaDeOndeParou(context)
+                perfilViewModel.addAcertoInDb(context)
                 jogoDaCapitalScreenViewModel.adicionarAcerto()
-                jogoDaCapitalScreenViewModel.apagarListaPais()
 
-                // Essa função recebe o próximo Pais como parâmetro e exclui da listaDoContinente
-                // e adiciona 3 Paises
-                jogoDaCapitalScreenViewModel.encherPaisesAleatorios(
-                    listaDoContinente,
-                    listadePais,
-                    proxIndex
-                )
+                if (!continuaDeOndeParou){
+                    jogoDaCapitalScreenViewModel.apagarListaPais()
+                    // Essa função recebe o próximo Pais como parâmetro e exclui da listaDoContinente
+                    // e adiciona 3 Paises
+                    jogoDaCapitalScreenViewModel.encherPaisesAleatorios(
+                        listaDoContinente,
+                        listadePais,
+                        proxIndex
+                    )
+                }
 
             } else {
+                perfilViewModel.addErroDbContinuaDeOndeParou(context)
+                perfilViewModel.addErroInDb(context)
                 jogoDaCapitalScreenViewModel.adicionarErro()
             }
         }
@@ -287,44 +327,69 @@ fun JogoCapital(
                 verificarSeAcertou(pais, listaDePais, proxIndex)
 
                 // Continua a verificar se o usário clicou na opção correta e adiciona o próx pais na lista totalizando 4 paises
-                if (!jogoPais) {
+                if (!jogoPais) { // Esse é o jogo da capital
                     if (pais.capital[0] == opcaoCorreta) {
 
                         // Verificação se acabou a lista para ir pra tela de resultado
                         if (proxIndex + 1 > listaDePais.count()) {
                             proxIndex -= 1
                             jogoDaCapitalScreenViewModel.adicionarPaisCorreto(listaDePais[proxIndex])
+
+                            // Alterando o banco de dados de niveis do usuario ao concluir o nível
+                            perfilViewModel.onNiveisCapitaisChanged(context, continente, tituloNivel)
+
+                            // resetando db ContinuaDeOndeParou para não haver conflitos (pois usuario finalizou o nível)
+                            perfilViewModel.resetadbContinuaDeOndeParou(context)
+
+                            // Indo para tela de resultado
                             return@Button navController.navigate("telaResultado?acertos=${acertos}?erros=${erros}?continente=${continente}?tituloJogo=${tituloJogo}?tituloContinente=${tituloContinente}?jogoPais=${jogoPais}?jogoBandeira=${jogoBandeira}")
                         }
 
                         // Se não for pra tela de resultado aqui é adicionado o Proximo País na lista e
                         // embaralha ela para a próxima pergunta
                         if (proxIndex <= listaDePais.count()) {
-                            jogoDaCapitalScreenViewModel.adicionarPaisCorreto(listaDePais[proxIndex])
-                            jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
+                            if (!continuaDeOndeParou) {
+                                jogoDaCapitalScreenViewModel.adicionarPaisCorreto(listaDePais[proxIndex])
+                                jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
+                            }
                         }
 
+                        perfilViewModel.atualizarListaDePaisesDbContinuaOndeParou(context, listaDePais, pais)
                         jogoDaCapitalScreenViewModel.proximoPais()// Adiciona +1 no i do FOR do jogoDaCapitalScreen
                     }
                 } else {
-                    if (pais.nome.portugues.common == opcaoCorretaPais) {
+                    if (pais.nome.portugues.common == opcaoCorretaPais) { // Esse é o jogo de acertar pais ou bandeira
 
                         // Verificação se acabou a lista para ir pra tela de resultado
                         if (proxIndex + 1 > listaDePais.count()) {
                             proxIndex -= 1
                             jogoDaCapitalScreenViewModel.adicionarPaisCorreto(listaDePais[proxIndex])
+
+                            // Alterando o banco de dados de niveis do usuario ao concluir o nível
+                            if (jogoPais && !jogoBandeira) { // esse é o jogo do pais
+                                perfilViewModel.onNiveisPaisesChanged(context, continente, tituloNivel)
+                            } else { // esse é o jogo da bandeira
+                                perfilViewModel.onNiveisBandeirasChanged(context, continente, tituloNivel)
+                            }
+
+                            // resetando db ContinuaDeOndeParou para não haver conflitos (pois usuario finalizou o nível)
+                            perfilViewModel.resetadbContinuaDeOndeParou(context)
+
+                            // Indo para tela de resultado
                             return@Button navController.navigate("telaResultado?acertos=${acertos}?erros=${erros}?continente=${continente}?tituloJogo=${tituloJogo}?tituloContinente=${tituloContinente}?jogoPais=${jogoPais}?jogoBandeira=${jogoBandeira}")
                         }
 
                         // Se não for pra tela de resultado aqui é adicionado o Proximo País na lista e
                         // embaralha ela para a próxima pergunta
                         if (proxIndex <= listaDePais.count()) {
-                            jogoDaCapitalScreenViewModel.adicionarPaisCorreto(listaDePais[proxIndex])
-                            jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
+                            if (!continuaDeOndeParou) {
+                                jogoDaCapitalScreenViewModel.adicionarPaisCorreto(listaDePais[proxIndex])
+                                jogoDaCapitalScreenViewModel.embaralharPaisesAleatorios()
+                            }
                         }
 
-                        // Adiciona +1 no i do FOR do jogoDaCapitalScreen
-                        jogoDaCapitalScreenViewModel.proximoPais()
+                        perfilViewModel.atualizarListaDePaisesDbContinuaOndeParou(context, listaDePais, pais)
+                        jogoDaCapitalScreenViewModel.proximoPais()// Adiciona +1 no i do FOR do jogoDaCapitalScreen
                     }
                 }
             },
@@ -354,5 +419,4 @@ fun JogoCapital(
     botao(pais = opcoesDeEscolha[1], corCard01)
     botao(pais = opcoesDeEscolha[2], corCard02)
     botao(pais = opcoesDeEscolha[3], corCard03)
-
 }

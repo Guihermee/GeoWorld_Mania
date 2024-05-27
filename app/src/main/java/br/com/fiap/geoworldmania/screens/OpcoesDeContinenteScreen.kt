@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -37,6 +38,8 @@ fun OpcoesDeContinenteScreen(
     jogoPais: Boolean,
     jogoBandeira: Boolean
 ) {
+
+    val context = LocalContext.current
 
     Column(modifier = Modifier.fillMaxSize()) {
 
@@ -63,7 +66,8 @@ fun OpcoesDeContinenteScreen(
                     navController = navController,
                     tituloJogo = tituloJogo,
                     jogoPais = jogoPais,
-                    jogoBandeira = jogoBandeira
+                    jogoBandeira = jogoBandeira,
+                    context = context
                 )
             ) {
                 // Preenchendo os Cards com um Componente que recebe um Pais que é uma class data

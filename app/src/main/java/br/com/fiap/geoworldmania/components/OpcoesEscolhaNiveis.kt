@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.fiap.geoworldmania.R
 import br.com.fiap.geoworldmania.model.Nivel
+import br.com.fiap.geoworldmania.repository.NiveisCapitaisRepository
 
 
 @Composable
@@ -71,7 +73,6 @@ fun OpcoesEscolhaNivelTest(nivel: Nivel) {
 
     var corBotao = R.color.verde_claro
 
-    // ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.verde_claro))
     if (nivel.dificuldade == 1) {
         corBotao  = R.color.verde_claro
     } else if (nivel.dificuldade == 2) {
@@ -88,6 +89,7 @@ fun OpcoesEscolhaNivelTest(nivel: Nivel) {
             .height(60.dp),
         shape = RoundedCornerShape(4.dp),
         colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = corBotao)),
+        enabled = nivel.desativadoAtivado
     ) {
         Row(
             horizontalArrangement = Arrangement.Absolute.SpaceBetween,

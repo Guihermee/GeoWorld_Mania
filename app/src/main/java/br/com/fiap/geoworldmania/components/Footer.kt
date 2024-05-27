@@ -19,14 +19,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import br.com.fiap.geoworldmania.R
+import br.com.fiap.geoworldmania.repository.UsuarioRepository
 
 @Composable
 fun Footer(navController: NavController) {
+
+    val context = LocalContext.current
+    val userRepository = UsuarioRepository(context)
+    val user = userRepository.db.buscarUsuarioPeloId(1)
 
     Box(
         contentAlignment = Alignment.BottomStart,
@@ -58,9 +64,9 @@ fun Footer(navController: NavController) {
                     .size(40.dp, 40.dp)
                     .clip(shape = CircleShape)
             ){
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { navController.navigate("perfilScreen") }) {
                     Image(
-                        painter = painterResource(id = R.drawable.ana),
+                        painter = painterResource(id = user.imagem),
                         contentDescription = "Conta logada",
                         contentScale = ContentScale.Crop
                     )

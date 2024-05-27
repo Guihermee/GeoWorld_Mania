@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class ConsultaCapitaisViewModel :ViewModel() {
+class ConsultaCapitaisViewModel : ViewModel() {
 
     private val _consulta = MutableLiveData<String>()
     val consultaState: LiveData<String> = _consulta
